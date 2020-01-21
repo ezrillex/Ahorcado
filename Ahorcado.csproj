@@ -52,7 +52,7 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>ACFA2C17B1B49246AE17BFF8DAEBB1C3EE548AF5</ManifestCertificateThumbprint>

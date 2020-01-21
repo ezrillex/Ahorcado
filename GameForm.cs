@@ -10,12 +10,19 @@ using System.Windows.Forms;
 
 namespace Ahorcado
 {
+    /// <summary>
+    /// Custom Data structure to hold in an array the last x strings pushed.
+    /// </summary>
     struct CustomStringStack
     {
         public readonly string[] items;
         public readonly bool[] status;
         public readonly int size;
 
+        /// <summary>
+        /// Initialize the data structure.
+        /// </summary>
+        /// <param name="Size">Determines the size of the custom stack</param>
         public CustomStringStack(int Size)
         {
             if (Size <= 0) Size = 1;
@@ -30,9 +37,14 @@ namespace Ahorcado
             }
         }
 
+        /// <summary>
+        /// Adds an item and drops the oldest item
+        /// </summary>
+        /// <param name="s">String to be stacked</param>
+        /// <param name="b">State of the string being pushed</param>
         public void push(string s, bool b = true)
         {
-            // Pull everything "down"
+            // Pull everything "down", dropping the oldest item
             for(int i = size-1; i > 0; i--)
             {
                 items[i] = items[i - 1];
@@ -75,9 +87,14 @@ namespace Ahorcado
             InitializeComponent();
         }
 
+        /// <summary>
+        /// GameForm Loading Method. Handles most of the initialization of the program.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Create graphics object, pen and brush
+            // Create graphics object and pen
             g = this.CreateGraphics();
             BlackPen = new Pen(Color.Black, 3);
             RedPen = new Pen(Color.Red, 3);
@@ -147,39 +164,41 @@ namespace Ahorcado
             int HistoryPosition = 1;
             foreach(Label l in HistoryLabels)
             {
-                l.AutoSize = true; // fix cutting of of other labels
+                l.AutoSize = true; // fix cutting of other labels
                 l.Location = new Point(14,25 + (HistoryPosition * 16));
                 HistoryPosition++;
             }
+            // Add labels to GameForm
             for (int i = 0; i < HistoryLabels.Count(); i++)
             {
                 this.Controls.Add(HistoryLabels[i]);
-
             }
         }
 
+        /// <summary>
+        /// Updates the screen with the updated values of the word and history.
+        /// </summary>
+        /// <param name="RectPen">The pen used to draw the rectangle around the word. Used to color.</param>
         private void UpdateScreen(Pen RectPen)
         {
-            g.Clear(Color.White);
-            // Defines font, Courier New; 48pt; style=Bold
+            g.Clear(Color.White); // Clear Screen
             Font myFont = new Font("Courier New", 48);
-            myFont = new Font(myFont, FontStyle.Bold);
+            myFont = new Font(myFont, FontStyle.Bold); // Defines font, Courier New; 48pt; style=Bold
 
             int WordSize = GameWord.Length;
 
-            // 60 units wide when standalone using myfont
-            // calculate width of the word when using standalone letters
-            // Calculates size of text to be drawn
+            // calculate size of the word when using standalone letters
             Size LetterSize = new Size();
             LetterSize = g.MeasureString("A", myFont).ToSize();
             int WordWidth = LetterSize.Width * WordSize;
 
-            // Define origin point
+            // Define origin point @ the center.
             PointF source = new PointF((this.Size.Width - WordWidth) / 2, (this.Size.Height - LetterSize.Height) / 2);
 
-            // Word Hitbox
+            // Word Outline
             RectangleF WordRect = new RectangleF(source.X, source.Y, WordWidth, LetterSize.Height);
 
+            // Draw the word
             for (int i = 0; i < WordSize; i++)
             {
                 PointF CharSource = new PointF(source.X + (LetterSize.Width * i), source.Y);
@@ -197,29 +216,32 @@ namespace Ahorcado
             // Draws a rectangle around the text drawn
             g.DrawRectangle(RectPen, WordRect.X, WordRect.Y, WordRect.Width, WordRect.Height);
 
-            // +1 -1 Animations here or do Correct! Wrong! moving in matchcolor
+            // TODO +1 -1 Animations here or do Correct! Wrong! moving in matchcolor
 
         }
 
+        /// <summary>
+        /// Initializes a new word. It's used at the start and when each win or loose condition is met.
+        /// </summary>
+        /// <param name="isCorrect">Determines if the last word was guessed succesfully or failed. By default assumes it was successfull</param>
         private void InitializeWord(bool isCorrect = true)
         {
             History.push(GameWord, isCorrect); // Added current game word without a status parameter as calling of this method usually is only when we get a succes
 
-            // Randomly picking a new word
+            
             Random rng = new Random();
-            int index = rng.Next(WordDatabase.Count);
-            GameWord = WordDatabase[index];
-            WordGuess = "";
-
+            int index = rng.Next(WordDatabase.Count); 
+            GameWord = WordDatabase[index]; // Randomly picking a new word
+            WordGuess = ""; // Initialize WordGuess with the appropiate size
             for (int i = 0; i < GameWord.Length; i++)
             {
                 WordGuess = WordGuess + " ";
             }
             
-            UpdateScreen(BlackPen);
-
-            Font myFont = label_text_historial.Font;
             
+
+            // Update history labels colors and text
+            Font myFont = label_text_historial.Font;
             for(int i = 0; i < History.size; i++)
             {
                 HistoryLabels[i].Text = History.items[i];
@@ -232,14 +254,21 @@ namespace Ahorcado
                     HistoryLabels[i].ForeColor = Color.Red;
                 }
             }
+
+            UpdateScreen(BlackPen);
         }
 
+        /// <summary>
+        /// Updates the global variables that keep track of the letters guessed and the scoring.
+        /// </summary>
+        /// <param name="c">Input to process</param>
         private void UpdateWord(char c)
         {
-            Pen MatchPen = RedPen;
+            Pen MatchPen = RedPen; // Initializes the pen to send as red by default.
             bool AnyMatchFound = false;
             bool MatchFound = false;
             string LocalGuess = "";
+            // Find the character that was passed.
             for(int i = 0; i < GameWord.Length; i++)
             {
                 if(GameWord[i] == c)
@@ -252,6 +281,7 @@ namespace Ahorcado
                     LocalGuess = LocalGuess + WordGuess[i];
                 }
 
+                // Account the score. Update pen to green since a match was found
                 if(MatchFound == true)
                 {
                     AnyMatchFound = true;
@@ -271,32 +301,41 @@ namespace Ahorcado
                     MatchFound = false;
                 }
             }
+
             if(AnyMatchFound == false)
             {
                 attempts--;
             }
+
             WordGuess = LocalGuess;
+
+            
+            label_puntaje.Text = "Puntaje: " + Puntaje;
+
+            // Change the word and reset attempt tracking
             if (WordGuess == GameWord)
             {
+                // Win condition. 
                 InitializeWord();
                 attempts = 6;
             }
             else if(attempts == 0)
             {
+                // Lose condition.
                 InitializeWord(false);
                 attempts = 6;
             }
-            
-            UpdateScreen(MatchPen);
-            UpdateScore();
-
+            else
+            {
+                UpdateScreen(MatchPen); 
+            }
         }
 
-        private void UpdateScore()
-        {
-            label_puntaje.Text = "Puntaje: " + Puntaje;
-        }
-
+        /// <summary>
+        /// Play button press which hides the button and shows labels and keyboard buttons. Initializes the first word. Sets the game started flag to true.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PlayButton_Click(object sender, EventArgs e)
         {
             // Hide Play button
@@ -322,6 +361,11 @@ namespace Ahorcado
             GameStarted = true;
         }
 
+        /// <summary>
+        /// Settings button press opens as dialogue the settings and about form and sets game form as owner.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_settings_Click(object sender, EventArgs e)
         {
             SettingsAndAbout SettingsWindow = new SettingsAndAbout();
@@ -329,14 +373,26 @@ namespace Ahorcado
             SettingsWindow.ShowDialog();
         }
 
+        /// <summary>
+        /// Disposes pens and graphics resources.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // Is there more resources to dispose? 
             BlackPen.Dispose();
             RedPen.Dispose();
             GreenPen.Dispose();
             g.Dispose();
         }
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+
+        /// <summary>
+        /// Captures keypresses to not always use on screen keyboard.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GameForm_KeyDown(object sender, KeyEventArgs e)
         {
             if(GameStarted == true)
             {
@@ -435,6 +491,8 @@ namespace Ahorcado
             
 
         }
+
+        // Handles the button click events which were setup NOT programatically for speed of development.
 
         private void button_A_Click(object sender, EventArgs e)
         {
