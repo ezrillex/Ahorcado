@@ -483,6 +483,7 @@
             this.KeyPreview = true;
             this.Name = "GameForm";
             this.Text = "Ahorcado";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameForm_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.ResumeLayout(false);

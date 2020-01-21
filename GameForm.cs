@@ -47,21 +47,28 @@ namespace Ahorcado
 
     public partial class GameForm : Form
     {
+
+        string GameWord = "";
+        string WordGuess = "";
+
+        int Puntaje = 0;
+        int attempts = 6;
+
+        bool GameStarted = false;
+
         Graphics g;
+        
         Pen BlackPen;
         Pen RedPen;
         Pen GreenPen;
+        
         List<Button> GameButtons;
         List<Label> GameLabels;
-        string GameWord = "";
-        string WordGuess = "";
-        string LetersGuessed = "";
-        int Puntaje = 0;
-        bool GameStarted = false;
-        List<string> WordDatabase = new List<string>() { "CARRO", "PALOMA", "PROBLEMA", "BUGEADO","CODIGO"};
+        List<string> WordDatabase = new List<string>() { "CARRO", "PALOMA", "PROBLEMA", "BUGEADO", "CODIGO" };
+        
         Label[] HistoryLabels;
-        CustomStringStack History = new CustomStringStack(5);
 
+        CustomStringStack History = new CustomStringStack(5);
 
         public GameForm()
         {
@@ -151,10 +158,9 @@ namespace Ahorcado
             }
         }
 
-        private void UpdateWordInScreen(Pen RectPen)
+        private void UpdateScreen(Pen RectPen)
         {
             g.Clear(Color.White);
-
             // Defines font, Courier New; 48pt; style=Bold
             Font myFont = new Font("Courier New", 48);
             myFont = new Font(myFont, FontStyle.Bold);
@@ -191,11 +197,13 @@ namespace Ahorcado
             // Draws a rectangle around the text drawn
             g.DrawRectangle(RectPen, WordRect.X, WordRect.Y, WordRect.Width, WordRect.Height);
 
+            // +1 -1 Animations here or do Correct! Wrong! moving in matchcolor
+
         }
 
-        private void InitializeWord()
+        private void InitializeWord(bool isCorrect = true)
         {
-            History.push(GameWord); // Added current game word without a status parameter as calling of this method usually is only when we get a succes
+            History.push(GameWord, isCorrect); // Added current game word without a status parameter as calling of this method usually is only when we get a succes
 
             // Randomly picking a new word
             Random rng = new Random();
@@ -208,7 +216,7 @@ namespace Ahorcado
                 WordGuess = WordGuess + " ";
             }
             
-            UpdateWordInScreen(BlackPen);
+            UpdateScreen(BlackPen);
 
             Font myFont = label_text_historial.Font;
             
@@ -228,8 +236,8 @@ namespace Ahorcado
 
         private void UpdateWord(char c)
         {
-            // TO DO, spamming same letter point dupe
             Pen MatchPen = RedPen;
+            bool AnyMatchFound = false;
             bool MatchFound = false;
             string LocalGuess = "";
             for(int i = 0; i < GameWord.Length; i++)
@@ -246,6 +254,7 @@ namespace Ahorcado
 
                 if(MatchFound == true)
                 {
+                    AnyMatchFound = true;
                     bool sameGuess = false;
                     for(int j= 0; j < WordGuess.Length; j++)
                     {
@@ -262,13 +271,23 @@ namespace Ahorcado
                     MatchFound = false;
                 }
             }
+            if(AnyMatchFound == false)
+            {
+                attempts--;
+            }
             WordGuess = LocalGuess;
             if (WordGuess == GameWord)
             {
-                
                 InitializeWord();
+                attempts = 6;
             }
-            UpdateWordInScreen(MatchPen);
+            else if(attempts == 0)
+            {
+                InitializeWord(false);
+                attempts = 6;
+            }
+            
+            UpdateScreen(MatchPen);
             UpdateScore();
 
         }
@@ -310,7 +329,13 @@ namespace Ahorcado
             SettingsWindow.ShowDialog();
         }
 
-
+        private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            BlackPen.Dispose();
+            RedPen.Dispose();
+            GreenPen.Dispose();
+            g.Dispose();
+        }
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             if(GameStarted == true)
@@ -546,6 +571,6 @@ namespace Ahorcado
             UpdateWord('Z');
         }
 
-       
+        
     }
 }
