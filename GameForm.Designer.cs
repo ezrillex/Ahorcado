@@ -60,6 +60,7 @@
             this.button_Z = new System.Windows.Forms.Button();
             this.label_text_historial = new System.Windows.Forms.Label();
             this.button_settings = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_titulo
@@ -442,12 +443,23 @@
             this.button_settings.UseVisualStyleBackColor = true;
             this.button_settings.Click += new System.EventHandler(this.button_settings_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(47, 337);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 32;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(984, 681);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.button_settings);
             this.Controls.Add(this.label_text_historial);
             this.Controls.Add(this.button_Z);
@@ -525,6 +537,7 @@
         private System.Windows.Forms.Button button_Z;
         private System.Windows.Forms.Label label_text_historial;
         private System.Windows.Forms.Button button_settings;
+        private System.Windows.Forms.Button button1;
     }
 }
 

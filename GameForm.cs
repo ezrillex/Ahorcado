@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
+using System.IO;
+using System.Reflection;
 
 namespace Ahorcado
 {
@@ -63,6 +66,7 @@ namespace Ahorcado
 
         string GameWord = "";
         string WordGuess = "";
+        string ScorePath = "";
 
         int Puntaje = 0;
         int attempts = 6;
@@ -100,6 +104,34 @@ namespace Ahorcado
         /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Create or load a text file to permanently save score.
+            // Get exe path
+            ScorePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            ScorePath += "\\score.txt";
+
+            if (File.Exists(ScorePath))
+            {
+                // Load value stored in file.
+                using(StreamReader sr = File.OpenText(ScorePath))
+                {
+                    string s = sr.ReadToEnd();
+                    Puntaje = Convert.ToInt32(s);
+                }
+            }
+            else
+            {
+                // Create the file
+                using (StreamWriter fs = File.CreateText(ScorePath))
+                {
+                    fs.Write("0");
+                }
+                    
+            }
+            // Update score with value loaded
+            label_puntaje.Text = "Puntaje: " + Puntaje;
+
+
+
             // Initialize sound
             sound_Correct = new SoundPlayer("Correct.wav");
             sound_Wrong = new SoundPlayer("Wrong.wav");
@@ -111,6 +143,15 @@ namespace Ahorcado
             BlackPen = new Pen(Color.Black, 3);
             RedPen = new Pen(Color.Red, 3);
             GreenPen = new Pen(Color.Green, 3);
+
+            // Enable antialiasing to reduce aliasing in lines
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
+
+
+
+
+
 
             // Center Play Button
             PlayButton.Location = new Point((this.Size.Width - PlayButton.Width) / 2, (this.Size.Height - PlayButton.Height) / 2);
@@ -401,6 +442,9 @@ namespace Ahorcado
         /// <param name="e"></param>
         private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // Save score
+            File.WriteAllText(ScorePath, Puntaje.ToString());
+            
             // Is there more resources to dispose? 
             BlackPen.Dispose();
             RedPen.Dispose();
@@ -654,6 +698,54 @@ namespace Ahorcado
             UpdateWord('Z');
         }
 
-        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Point headPos = new Point(25, 25);
+            Size headSize = new Size(50, 50);
+            Rectangle head = new Rectangle(headPos, headSize);
+
+            // head
+            g.DrawEllipse(BlackPen, head);
+
+            // body
+            g.DrawLine
+                (BlackPen,
+                headPos.X + (headSize.Width / 2),
+                headPos.Y + headSize.Height, 
+                headPos.X + (headSize.Width / 2),
+                headPos.Y + headSize.Height + 70);
+
+            // left arm
+            g.DrawLine
+                (BlackPen,
+                headPos.X + (headSize.Width / 2),
+                headPos.Y + headSize.Height + 25,
+                headPos.X + (headSize.Width / 8),
+                headPos.Y + headSize.Height + 60);
+
+            // right arm
+            g.DrawLine
+                (BlackPen,
+                headPos.X + (headSize.Width / 2),
+                headPos.Y + headSize.Height + 25,
+                headPos.X + (headSize.Width / 8 * 7),
+                headPos.Y + headSize.Height + 60);
+
+            // left leg
+            g.DrawLine
+                (BlackPen,
+                headPos.X + (headSize.Width / 2),
+                headPos.Y + headSize.Height + 70,
+                headPos.X + (headSize.Width / 6),
+                headPos.Y + headSize.Height + 130);
+
+            // right leg
+            g.DrawLine
+                (BlackPen,
+                headPos.X + (headSize.Width / 2),
+                headPos.Y + headSize.Height + 70,
+                headPos.X + (headSize.Width / 6 * 5),
+                headPos.Y + headSize.Height + 130);
+        }
     }
 }
