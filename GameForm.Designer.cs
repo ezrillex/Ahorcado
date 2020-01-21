@@ -1,6 +1,6 @@
 ﻿namespace Ahorcado
 {
-    partial class Form1
+    partial class GameForm
     {
         /// <summary>
         /// Variable del diseñador necesaria.
@@ -58,7 +58,8 @@
             this.button_H = new System.Windows.Forms.Button();
             this.button_X = new System.Windows.Forms.Button();
             this.button_Z = new System.Windows.Forms.Button();
-            this.label_text1 = new System.Windows.Forms.Label();
+            this.label_text_historial = new System.Windows.Forms.Label();
+            this.button_settings = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_titulo
@@ -87,7 +88,7 @@
             this.PlayButton.BackColor = System.Drawing.Color.White;
             this.PlayButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.PlayButton.Font = new System.Drawing.Font("Algerian", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PlayButton.Location = new System.Drawing.Point(666, 12);
+            this.PlayButton.Location = new System.Drawing.Point(333, 7);
             this.PlayButton.Name = "PlayButton";
             this.PlayButton.Size = new System.Drawing.Size(306, 116);
             this.PlayButton.TabIndex = 2;
@@ -419,24 +420,36 @@
             this.button_Z.UseVisualStyleBackColor = true;
             this.button_Z.Click += new System.EventHandler(this.button_Z_Click);
             // 
-            // label_text1
+            // label_text_historial
             // 
-            this.label_text1.AutoSize = true;
-            this.label_text1.BackColor = System.Drawing.Color.Transparent;
-            this.label_text1.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_text1.Location = new System.Drawing.Point(12, 25);
-            this.label_text1.Name = "label_text1";
-            this.label_text1.Size = new System.Drawing.Size(64, 16);
-            this.label_text1.TabIndex = 30;
-            this.label_text1.Text = "Historial:";
+            this.label_text_historial.AutoSize = true;
+            this.label_text_historial.BackColor = System.Drawing.Color.Transparent;
+            this.label_text_historial.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_text_historial.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label_text_historial.Location = new System.Drawing.Point(12, 25);
+            this.label_text_historial.Name = "label_text_historial";
+            this.label_text_historial.Size = new System.Drawing.Size(64, 16);
+            this.label_text_historial.TabIndex = 30;
+            this.label_text_historial.Text = "Historial:";
             // 
-            // Form1
+            // button_settings
+            // 
+            this.button_settings.Location = new System.Drawing.Point(911, 8);
+            this.button_settings.Name = "button_settings";
+            this.button_settings.Size = new System.Drawing.Size(65, 32);
+            this.button_settings.TabIndex = 31;
+            this.button_settings.Text = "Settings";
+            this.button_settings.UseVisualStyleBackColor = true;
+            this.button_settings.Click += new System.EventHandler(this.button_settings_Click);
+            // 
+            // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(984, 661);
-            this.Controls.Add(this.label_text1);
+            this.Controls.Add(this.button_settings);
+            this.Controls.Add(this.label_text_historial);
             this.Controls.Add(this.button_Z);
             this.Controls.Add(this.button_H);
             this.Controls.Add(this.button_X);
@@ -468,7 +481,7 @@
             this.Controls.Add(this.label_puntaje);
             this.Controls.Add(this.label_titulo);
             this.KeyPreview = true;
-            this.Name = "Form1";
+            this.Name = "GameForm";
             this.Text = "Ahorcado";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
@@ -509,7 +522,8 @@
         private System.Windows.Forms.Button button_H;
         private System.Windows.Forms.Button button_X;
         private System.Windows.Forms.Button button_Z;
-        private System.Windows.Forms.Label label_text1;
+        private System.Windows.Forms.Label label_text_historial;
+        private System.Windows.Forms.Button button_settings;
     }
 }
 

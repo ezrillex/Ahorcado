@@ -10,7 +10,42 @@ using System.Windows.Forms;
 
 namespace Ahorcado
 {
-    public partial class Form1 : Form
+    struct CustomStringStack
+    {
+        public readonly string[] items;
+        public readonly bool[] status;
+        public readonly int size;
+
+        public CustomStringStack(int Size)
+        {
+            if (Size <= 0) Size = 1;
+            size = Size;
+            items = new string[Size];
+            status = new bool[Size];
+
+            for(int i = 0; i < Size; i++)
+            {
+                items[i] = "";
+                status[i] = true;
+            }
+        }
+
+        public void push(string s, bool b = true)
+        {
+            // Pull everything "down"
+            for(int i = size-1; i > 0; i--)
+            {
+                items[i] = items[i - 1];
+                status[i] = status[i - 1];
+            }
+
+            // Put the string on position 0
+            items[0] = s;
+            status[0] = b;
+        }
+    }
+
+    public partial class GameForm : Form
     {
         Graphics g;
         Pen BlackPen;
@@ -24,10 +59,11 @@ namespace Ahorcado
         int Puntaje = 0;
         bool GameStarted = false;
         List<string> WordDatabase = new List<string>() { "CARRO", "PALOMA", "PROBLEMA", "BUGEADO","CODIGO"};
-        string[] history = new string[0];
+        Label[] HistoryLabels;
+        CustomStringStack History = new CustomStringStack(5);
 
 
-        public Form1()
+        public GameForm()
         {
             InitializeComponent();
         }
@@ -83,7 +119,7 @@ namespace Ahorcado
             // Create a list of labels associated with the game
             GameLabels = new List<Label>();
             GameLabels.Add(label_puntaje);
-            GameLabels.Add(label_text1);
+            GameLabels.Add(label_text_historial);
 
             // Hide game labels
             foreach(Label l in GameLabels)
@@ -92,7 +128,27 @@ namespace Ahorcado
                 l.Enabled = false;
             }
 
+            // Initialize history labels
+            HistoryLabels = new Label[History.size];
+            for(int i = 0; i < History.size; i++)
+            {
+                HistoryLabels[i] = new Label();
+                
+            }
 
+            // Format and Move history label to locations
+            int HistoryPosition = 1;
+            foreach(Label l in HistoryLabels)
+            {
+                l.AutoSize = true; // fix cutting of of other labels
+                l.Location = new Point(14,25 + (HistoryPosition * 16));
+                HistoryPosition++;
+            }
+            for (int i = 0; i < HistoryLabels.Count(); i++)
+            {
+                this.Controls.Add(HistoryLabels[i]);
+
+            }
         }
 
         private void UpdateWordInScreen(Pen RectPen)
@@ -135,17 +191,13 @@ namespace Ahorcado
             // Draws a rectangle around the text drawn
             g.DrawRectangle(RectPen, WordRect.X, WordRect.Y, WordRect.Width, WordRect.Height);
 
-            
-            // Draw History of words matched
-            for (int i = 0; i < history.Length; i++)
-            {
-                g.DrawString(history[i], myFont, Brushes.Black, new PointF(100, 100));
-            }
-
         }
 
         private void InitializeWord()
         {
+            History.push(GameWord); // Added current game word without a status parameter as calling of this method usually is only when we get a succes
+
+            // Randomly picking a new word
             Random rng = new Random();
             int index = rng.Next(WordDatabase.Count);
             GameWord = WordDatabase[index];
@@ -155,11 +207,23 @@ namespace Ahorcado
             {
                 WordGuess = WordGuess + " ";
             }
-
             
-                UpdateWordInScreen(BlackPen);
+            UpdateWordInScreen(BlackPen);
 
+            Font myFont = label_text_historial.Font;
             
+            for(int i = 0; i < History.size; i++)
+            {
+                HistoryLabels[i].Text = History.items[i];
+                if (History.status[i] == true)
+                {
+                    HistoryLabels[i].ForeColor = Color.Green;
+                }
+                else
+                {
+                    HistoryLabels[i].ForeColor = Color.Red;
+                }
+            }
         }
 
         private void UpdateWord(char c)
@@ -190,7 +254,7 @@ namespace Ahorcado
             WordGuess = LocalGuess;
             if (WordGuess == GameWord)
             {
-                history.Append(GameWord);
+                
                 InitializeWord();
             }
             UpdateWordInScreen(MatchPen);
@@ -228,7 +292,13 @@ namespace Ahorcado
             GameStarted = true;
         }
 
-       
+        private void button_settings_Click(object sender, EventArgs e)
+        {
+            SettingsAndAbout SettingsWindow = new SettingsAndAbout();
+            SettingsWindow.Owner = this;
+            SettingsWindow.ShowDialog();
+        }
+
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -322,6 +392,9 @@ namespace Ahorcado
                     default:
                         break;
                 }
+
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
             
 
@@ -461,5 +534,7 @@ namespace Ahorcado
         {
             UpdateWord('Z');
         }
+
+       
     }
 }
