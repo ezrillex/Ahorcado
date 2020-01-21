@@ -246,7 +246,18 @@ namespace Ahorcado
 
                 if(MatchFound == true)
                 {
-                    Puntaje++;
+                    bool sameGuess = false;
+                    for(int j= 0; j < WordGuess.Length; j++)
+                    {
+                        if (c == WordGuess[j]) 
+                        {
+                            sameGuess = true;
+                        }
+                    }
+                    if(sameGuess == false)
+                    {
+                        Puntaje++;
+                    }
                     MatchPen = GreenPen;
                     MatchFound = false;
                 }
