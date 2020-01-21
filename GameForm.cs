@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 
 namespace Ahorcado
 {
@@ -69,6 +70,11 @@ namespace Ahorcado
         bool GameStarted = false;
 
         Graphics g;
+
+        SoundPlayer sound_Correct;
+        SoundPlayer sound_Wrong;
+        SoundPlayer sound_Lose;
+        SoundPlayer sound_Win;
         
         Pen BlackPen;
         Pen RedPen;
@@ -94,6 +100,12 @@ namespace Ahorcado
         /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Initialize sound
+            sound_Correct = new SoundPlayer("Correct.wav");
+            sound_Wrong = new SoundPlayer("Wrong.wav");
+            sound_Lose = new SoundPlayer("Lose.wav");
+            sound_Win = new SoundPlayer("Win.wav");
+
             // Create graphics object and pen
             g = this.CreateGraphics();
             BlackPen = new Pen(Color.Black, 3);
@@ -302,31 +314,40 @@ namespace Ahorcado
                 }
             }
 
-            if(AnyMatchFound == false)
+            WordGuess = LocalGuess;
+            
+            label_puntaje.Text = "Puntaje: " + Puntaje;
+
+            if (AnyMatchFound == false)
             {
                 attempts--;
             }
-
-            WordGuess = LocalGuess;
-
-            
-            label_puntaje.Text = "Puntaje: " + Puntaje;
 
             // Change the word and reset attempt tracking
             if (WordGuess == GameWord)
             {
                 // Win condition. 
+                sound_Win.Play();
                 InitializeWord();
                 attempts = 6;
             }
             else if(attempts == 0)
             {
                 // Lose condition.
+                sound_Lose.Play();
                 InitializeWord(false);
                 attempts = 6;
             }
             else
             {
+                if (AnyMatchFound == false)
+                {
+                    sound_Wrong.Play();
+                }
+                else
+                {
+                    sound_Correct.Play();
+                }
                 UpdateScreen(MatchPen); 
             }
         }
@@ -385,6 +406,10 @@ namespace Ahorcado
             RedPen.Dispose();
             GreenPen.Dispose();
             g.Dispose();
+            sound_Correct.Dispose();
+            sound_Lose.Dispose();
+            sound_Win.Dispose();
+            sound_Wrong.Dispose();
         }
 
         /// <summary>
