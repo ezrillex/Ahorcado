@@ -69,7 +69,7 @@ namespace Ahorcado
         string ScorePath = "";
 
         int Puntaje = 0;
-        int attempts = 6;
+        int attempts = 7;
 
         bool GameStarted = false;
 
@@ -271,6 +271,8 @@ namespace Ahorcado
 
             // TODO +1 -1 Animations here or do Correct! Wrong! moving in matchcolor
 
+            // Draw current stage of hangman based on attempt value.
+            DrawStickFigure(attempts);
         }
 
         /// <summary>
@@ -369,15 +371,15 @@ namespace Ahorcado
             {
                 // Win condition. 
                 sound_Win.Play();
+                attempts = 7;
                 InitializeWord();
-                attempts = 6;
             }
             else if(attempts == 0)
             {
                 // Lose condition.
                 sound_Lose.Play();
+                attempts = 7;
                 InitializeWord(false);
-                attempts = 6;
             }
             else
             {
@@ -454,6 +456,159 @@ namespace Ahorcado
             sound_Lose.Dispose();
             sound_Win.Dispose();
             sound_Wrong.Dispose();
+        }
+
+        /// <summary>
+        /// Draws a stick figure.
+        /// </summary>
+        /// <param name="stage">Determines the stage of the stick figure.</param>
+        private void DrawStickFigure(int stage)
+        {
+            Point headPos = new Point(this.Width / 2, 120);
+            Size headSize = new Size(50, 50);
+            Rectangle head = new Rectangle(headPos, headSize);
+            Pen RopePen = new Pen(Color.Black, 5);
+            Pen StickFigurePen = BlackPen;
+
+            switch (stage)
+            {
+                case 0:
+                    // this doesn't even show so leave blank :D
+                    break;
+                case 1:
+                    StickFigurePen = RedPen;
+                    DrawRope();
+                    DrawLeftArm();
+                    DrawRightLeg();
+                    DrawLeftLeg();
+                    DrawBody();
+                    DrawHead();
+                    DrawRightArm();
+                    break;
+                case 2:
+                    DrawRope();
+                    DrawRightLeg();
+                    DrawLeftLeg();
+                    DrawBody();
+                    DrawHead();
+                    DrawLeftArm();
+                    break;
+                case 3:
+                    DrawRope();
+                    DrawLeftLeg();
+                    DrawBody();
+                    DrawHead();
+                    DrawRightLeg();
+                    break;
+                case 4:
+                    DrawBody();
+                    DrawRope();
+                    DrawHead();
+                    DrawLeftLeg();
+                    break;
+                case 5:
+                    DrawHead();
+                    DrawRope();
+                    DrawBody();
+                    break;
+                case 6:
+                    DrawRope();
+                    DrawHead();
+                    break;
+                case 7:
+                    DrawRope();
+                    break;
+                default:
+                    break;
+            }
+
+            void DrawRope()
+            {
+                // draw rope
+                g.DrawLine
+                    (RopePen,
+                    headPos.X + (headSize.Width / 2),
+                    headPos.Y,
+                    headPos.X + (headSize.Width / 2),
+                    headPos.Y - 15);
+                // draw horizontal stick
+                g.DrawLine
+                    (RopePen,
+                    headPos.X + (headSize.Width / 2) +2,
+                    headPos.Y - 15,
+                    headPos.X - 102,
+                    headPos.Y - 15);
+                // draw vertical stick
+                g.DrawLine
+                    (RopePen,
+                    headPos.X - 100,
+                    headPos.Y - 15,
+                    headPos.X - 100,
+                    headPos.Y + 190);
+            }
+
+            void DrawHead()
+            {
+                // head
+                g.DrawEllipse(StickFigurePen, head);
+            }
+
+            void DrawBody()
+            {
+                // body
+                g.DrawLine
+                    (StickFigurePen,
+                    headPos.X + (headSize.Width / 2),
+                    headPos.Y + headSize.Height,
+                    headPos.X + (headSize.Width / 2),
+                    headPos.Y + headSize.Height + 70);
+            }
+
+            void DrawLeftArm()
+            {
+                // left arm
+                g.DrawLine
+                    (StickFigurePen,
+                    headPos.X + (headSize.Width / 2),
+                    headPos.Y + headSize.Height + 25,
+                    headPos.X + (headSize.Width / 8),
+                    headPos.Y + headSize.Height + 60);
+            }
+
+            void DrawRightArm()
+            {
+                // right arm
+                g.DrawLine
+                    (StickFigurePen,
+                    headPos.X + (headSize.Width / 2),
+                    headPos.Y + headSize.Height + 25,
+                    headPos.X + (headSize.Width / 8 * 7),
+                    headPos.Y + headSize.Height + 60);
+            }
+
+            void DrawLeftLeg()
+            {
+                // left leg
+                g.DrawLine
+                    (StickFigurePen,
+                    headPos.X + (headSize.Width / 2),
+                    headPos.Y + headSize.Height + 70,
+                    headPos.X + (headSize.Width / 6),
+                    headPos.Y + headSize.Height + 130);
+            }
+
+            void DrawRightLeg()
+            {
+                // right leg
+                g.DrawLine
+                    (StickFigurePen,
+                    headPos.X + (headSize.Width / 2),
+                    headPos.Y + headSize.Height + 70,
+                    headPos.X + (headSize.Width / 6 * 5),
+                    headPos.Y + headSize.Height + 130);
+            }
+
+            RopePen.Dispose();
         }
 
         /// <summary>
@@ -698,54 +853,5 @@ namespace Ahorcado
             UpdateWord('Z');
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Point headPos = new Point(25, 25);
-            Size headSize = new Size(50, 50);
-            Rectangle head = new Rectangle(headPos, headSize);
-
-            // head
-            g.DrawEllipse(BlackPen, head);
-
-            // body
-            g.DrawLine
-                (BlackPen,
-                headPos.X + (headSize.Width / 2),
-                headPos.Y + headSize.Height, 
-                headPos.X + (headSize.Width / 2),
-                headPos.Y + headSize.Height + 70);
-
-            // left arm
-            g.DrawLine
-                (BlackPen,
-                headPos.X + (headSize.Width / 2),
-                headPos.Y + headSize.Height + 25,
-                headPos.X + (headSize.Width / 8),
-                headPos.Y + headSize.Height + 60);
-
-            // right arm
-            g.DrawLine
-                (BlackPen,
-                headPos.X + (headSize.Width / 2),
-                headPos.Y + headSize.Height + 25,
-                headPos.X + (headSize.Width / 8 * 7),
-                headPos.Y + headSize.Height + 60);
-
-            // left leg
-            g.DrawLine
-                (BlackPen,
-                headPos.X + (headSize.Width / 2),
-                headPos.Y + headSize.Height + 70,
-                headPos.X + (headSize.Width / 6),
-                headPos.Y + headSize.Height + 130);
-
-            // right leg
-            g.DrawLine
-                (BlackPen,
-                headPos.X + (headSize.Width / 2),
-                headPos.Y + headSize.Height + 70,
-                headPos.X + (headSize.Width / 6 * 5),
-                headPos.Y + headSize.Height + 130);
-        }
     }
 }

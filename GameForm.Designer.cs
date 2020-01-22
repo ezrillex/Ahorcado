@@ -60,7 +60,6 @@
             this.button_Z = new System.Windows.Forms.Button();
             this.label_text_historial = new System.Windows.Forms.Label();
             this.button_settings = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label_titulo
@@ -435,23 +434,16 @@
             // 
             // button_settings
             // 
-            this.button_settings.Location = new System.Drawing.Point(911, 8);
+            this.button_settings.BackgroundImage = global::Ahorcado.Properties.Resources.cog;
+            this.button_settings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button_settings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_settings.ForeColor = System.Drawing.Color.White;
+            this.button_settings.Location = new System.Drawing.Point(922, 12);
             this.button_settings.Name = "button_settings";
-            this.button_settings.Size = new System.Drawing.Size(65, 32);
+            this.button_settings.Size = new System.Drawing.Size(50, 50);
             this.button_settings.TabIndex = 31;
-            this.button_settings.Text = "Settings";
             this.button_settings.UseVisualStyleBackColor = true;
             this.button_settings.Click += new System.EventHandler(this.button_settings_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(47, 337);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 32;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // GameForm
             // 
@@ -459,7 +451,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(984, 681);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.button_settings);
             this.Controls.Add(this.label_text_historial);
             this.Controls.Add(this.button_Z);
@@ -493,6 +484,8 @@
             this.Controls.Add(this.label_puntaje);
             this.Controls.Add(this.label_titulo);
             this.KeyPreview = true;
+            this.MaximumSize = new System.Drawing.Size(1000, 720);
+            this.MinimumSize = new System.Drawing.Size(1000, 720);
             this.Name = "GameForm";
             this.Text = "Ahorcado";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameForm_FormClosing);
@@ -537,7 +530,6 @@
         private System.Windows.Forms.Button button_Z;
         private System.Windows.Forms.Label label_text_historial;
         private System.Windows.Forms.Button button_settings;
-        private System.Windows.Forms.Button button1;
     }
 }
 
