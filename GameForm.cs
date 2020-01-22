@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Media;
 using System.IO;
 using System.Reflection;
+using System.Data.SQLite;
 
 namespace Ahorcado
 {
@@ -63,17 +64,24 @@ namespace Ahorcado
 
     public partial class GameForm : Form
     {
-
         string GameWord = "";
         string WordGuess = "";
         string ScorePath = "";
+        string WORD;
 
         int Puntaje = 0;
         int attempts = 7;
+        int ID;
+        int RIGHT;
+        int WRONG;
+        int APPEARED;
 
         bool GameStarted = false;
+        bool REPORTED;
 
         Graphics g;
+
+        SQLiteConnection DB_Connection;
 
         SoundPlayer sound_Correct;
         SoundPlayer sound_Wrong;
@@ -86,11 +94,12 @@ namespace Ahorcado
         
         List<Button> GameButtons;
         List<Label> GameLabels;
-        List<string> WordDatabase = new List<string>() { "CARRO", "PALOMA", "PROBLEMA", "BUGEADO", "CODIGO" };
         
         Label[] HistoryLabels;
 
         CustomStringStack History = new CustomStringStack(5);
+
+        SQLiteCommand DB_Command;
 
         public GameForm()
         {
@@ -147,10 +156,19 @@ namespace Ahorcado
             // Enable antialiasing to reduce aliasing in lines
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-
-
-
-
+            // Connect to word database
+            string ProgramPath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            ProgramPath += @"\WordDB.db";
+            DB_Connection = new SQLiteConnection("Data Source=" + ProgramPath + ";Version=3;");
+            try
+            {
+                DB_Connection.Open();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fallo al conectar a la base de datos: " + ex.Message);
+            }
+            DB_Command = DB_Connection.CreateCommand();
 
 
             // Center Play Button
@@ -218,7 +236,7 @@ namespace Ahorcado
             foreach(Label l in HistoryLabels)
             {
                 l.AutoSize = true; // fix cutting of other labels
-                l.Location = new Point(14,25 + (HistoryPosition * 16));
+                l.Location = new Point(12,26 + (HistoryPosition * 16));
                 HistoryPosition++;
             }
             // Add labels to GameForm
@@ -246,7 +264,7 @@ namespace Ahorcado
             int WordWidth = LetterSize.Width * WordSize;
 
             // Define origin point @ the center.
-            PointF source = new PointF((this.Size.Width - WordWidth) / 2, (this.Size.Height - LetterSize.Height) / 2);
+            PointF source = new PointF(((this.Size.Width - WordWidth) / 2) - 7, ((this.Size.Height - LetterSize.Height) / 2) + 54);
 
             // Word Outline
             RectangleF WordRect = new RectangleF(source.X, source.Y, WordWidth, LetterSize.Height);
@@ -281,12 +299,51 @@ namespace Ahorcado
         /// <param name="isCorrect">Determines if the last word was guessed succesfully or failed. By default assumes it was successfull</param>
         private void InitializeWord(bool isCorrect = true)
         {
-            History.push(GameWord, isCorrect); // Added current game word without a status parameter as calling of this method usually is only when we get a succes
+            History.push(GameWord, isCorrect); // Added current game word to history. It's important the first one is initialized as ""
 
+            // Update database with the new values BEFORE changing to a new word
+            if(GameStarted == true) // to avoid trying to make changes with uninitiated variables
+            {
+                if(isCorrect == true)
+                {
+                    RIGHT++;
+                }
+                else
+                {
+                    WRONG++;
+                }
+                DB_Command.CommandText = "update Words set right=?, wrong=?, appeared=? where ID=?";
+                DB_Command.Parameters.Clear();
+                DB_Command.Parameters.AddWithValue("right", RIGHT);
+                DB_Command.Parameters.AddWithValue("wrong", WRONG);
+                DB_Command.Parameters.AddWithValue("appeared", APPEARED);
+                DB_Command.Parameters.AddWithValue("ID", ID);
+                DB_Command.ExecuteNonQuery();
+                DB_Command.Parameters.Clear();
+            }
+
+
+
+            // Get a NEW random word from the Word Database
+            SQLiteDataReader DB_Reader;
+            DB_Command.CommandText = "select * from words order by random() limit 1;";
+            do
+            {
+                DB_Reader = DB_Command.ExecuteReader();
+                DB_Reader.Read();
+                REPORTED = DB_Reader.GetBoolean(2);
+            } while (REPORTED == true);
             
-            Random rng = new Random();
-            int index = rng.Next(WordDatabase.Count); 
-            GameWord = WordDatabase[index]; // Randomly picking a new word
+            ID = DB_Reader.GetInt32(0);
+            WORD = DB_Reader.GetString(1);
+            RIGHT = DB_Reader.GetInt32(3);
+            WRONG = DB_Reader.GetInt32(4);
+            APPEARED = DB_Reader.GetInt32(5);
+
+            // Set the GameWord as the word selected by the database
+            GameWord = WORD.ToUpper();
+            APPEARED++;
+
             WordGuess = ""; // Initialize WordGuess with the appropiate size
             for (int i = 0; i < GameWord.Length; i++)
             {
@@ -446,7 +503,10 @@ namespace Ahorcado
         {
             // Save score
             File.WriteAllText(ScorePath, Puntaje.ToString());
-            
+
+            // Close database connection
+            DB_Connection.Close();
+
             // Is there more resources to dispose? 
             BlackPen.Dispose();
             RedPen.Dispose();

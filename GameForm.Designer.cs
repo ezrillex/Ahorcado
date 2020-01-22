@@ -66,7 +66,7 @@
             // 
             this.label_titulo.AutoSize = true;
             this.label_titulo.Font = new System.Drawing.Font("Century", 60F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_titulo.Location = new System.Drawing.Point(226, 9);
+            this.label_titulo.Location = new System.Drawing.Point(326, 9);
             this.label_titulo.Name = "label_titulo";
             this.label_titulo.Size = new System.Drawing.Size(533, 95);
             this.label_titulo.TabIndex = 0;
@@ -88,7 +88,7 @@
             this.PlayButton.BackColor = System.Drawing.Color.White;
             this.PlayButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.PlayButton.Font = new System.Drawing.Font("Algerian", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PlayButton.Location = new System.Drawing.Point(333, 7);
+            this.PlayButton.Location = new System.Drawing.Point(433, 7);
             this.PlayButton.Name = "PlayButton";
             this.PlayButton.Size = new System.Drawing.Size(306, 116);
             this.PlayButton.TabIndex = 2;
@@ -100,7 +100,7 @@
             // 
             this.button_A.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_A.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_A.Location = new System.Drawing.Point(90, 412);
+            this.button_A.Location = new System.Drawing.Point(28, 412);
             this.button_A.Name = "button_A";
             this.button_A.Size = new System.Drawing.Size(75, 75);
             this.button_A.TabIndex = 3;
@@ -112,7 +112,7 @@
             // 
             this.button_M.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_M.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_M.Location = new System.Drawing.Point(252, 493);
+            this.button_M.Location = new System.Drawing.Point(1000, 412);
             this.button_M.Name = "button_M";
             this.button_M.Size = new System.Drawing.Size(75, 75);
             this.button_M.TabIndex = 4;
@@ -124,7 +124,7 @@
             // 
             this.button_I.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_I.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_I.Location = new System.Drawing.Point(738, 412);
+            this.button_I.Location = new System.Drawing.Point(676, 412);
             this.button_I.Name = "button_I";
             this.button_I.Size = new System.Drawing.Size(75, 75);
             this.button_I.TabIndex = 6;
@@ -136,7 +136,7 @@
             // 
             this.button_Y.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Y.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Y.Location = new System.Drawing.Point(617, 574);
+            this.button_Y.Location = new System.Drawing.Point(960, 493);
             this.button_Y.Name = "button_Y";
             this.button_Y.Size = new System.Drawing.Size(75, 75);
             this.button_Y.TabIndex = 5;
@@ -148,7 +148,7 @@
             // 
             this.button_W.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_W.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_W.Location = new System.Drawing.Point(455, 574);
+            this.button_W.Location = new System.Drawing.Point(798, 493);
             this.button_W.Name = "button_W";
             this.button_W.Size = new System.Drawing.Size(75, 75);
             this.button_W.TabIndex = 10;
@@ -160,7 +160,7 @@
             // 
             this.button_V.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_V.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_V.Location = new System.Drawing.Point(374, 574);
+            this.button_V.Location = new System.Drawing.Point(717, 493);
             this.button_V.Name = "button_V";
             this.button_V.Size = new System.Drawing.Size(75, 75);
             this.button_V.TabIndex = 9;
@@ -172,7 +172,7 @@
             // 
             this.button_N.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_N.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_N.Location = new System.Drawing.Point(333, 493);
+            this.button_N.Location = new System.Drawing.Point(1081, 412);
             this.button_N.Name = "button_N";
             this.button_N.Size = new System.Drawing.Size(75, 75);
             this.button_N.TabIndex = 8;
@@ -184,7 +184,7 @@
             // 
             this.button_J.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_J.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_J.Location = new System.Drawing.Point(819, 412);
+            this.button_J.Location = new System.Drawing.Point(757, 412);
             this.button_J.Name = "button_J";
             this.button_J.Size = new System.Drawing.Size(75, 75);
             this.button_J.TabIndex = 7;
@@ -196,7 +196,7 @@
             // 
             this.button_G.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_G.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_G.Location = new System.Drawing.Point(576, 412);
+            this.button_G.Location = new System.Drawing.Point(514, 412);
             this.button_G.Name = "button_G";
             this.button_G.Size = new System.Drawing.Size(75, 75);
             this.button_G.TabIndex = 18;
@@ -208,7 +208,7 @@
             // 
             this.button_F.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_F.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_F.Location = new System.Drawing.Point(495, 412);
+            this.button_F.Location = new System.Drawing.Point(433, 412);
             this.button_F.Name = "button_F";
             this.button_F.Size = new System.Drawing.Size(75, 75);
             this.button_F.TabIndex = 17;
@@ -220,7 +220,7 @@
             // 
             this.button_E.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_E.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_E.Location = new System.Drawing.Point(414, 412);
+            this.button_E.Location = new System.Drawing.Point(352, 412);
             this.button_E.Name = "button_E";
             this.button_E.Size = new System.Drawing.Size(75, 75);
             this.button_E.TabIndex = 16;
@@ -232,7 +232,7 @@
             // 
             this.button_D.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_D.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_D.Location = new System.Drawing.Point(333, 412);
+            this.button_D.Location = new System.Drawing.Point(271, 412);
             this.button_D.Name = "button_D";
             this.button_D.Size = new System.Drawing.Size(75, 75);
             this.button_D.TabIndex = 15;
@@ -244,7 +244,7 @@
             // 
             this.button_C.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_C.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_C.Location = new System.Drawing.Point(252, 412);
+            this.button_C.Location = new System.Drawing.Point(190, 412);
             this.button_C.Name = "button_C";
             this.button_C.Size = new System.Drawing.Size(75, 75);
             this.button_C.TabIndex = 14;
@@ -256,7 +256,7 @@
             // 
             this.button_B.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_B.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_B.Location = new System.Drawing.Point(171, 412);
+            this.button_B.Location = new System.Drawing.Point(109, 412);
             this.button_B.Name = "button_B";
             this.button_B.Size = new System.Drawing.Size(75, 75);
             this.button_B.TabIndex = 13;
@@ -268,7 +268,7 @@
             // 
             this.button_L.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_L.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_L.Location = new System.Drawing.Point(171, 493);
+            this.button_L.Location = new System.Drawing.Point(919, 412);
             this.button_L.Name = "button_L";
             this.button_L.Size = new System.Drawing.Size(75, 75);
             this.button_L.TabIndex = 12;
@@ -280,7 +280,7 @@
             // 
             this.button_K.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_K.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_K.Location = new System.Drawing.Point(90, 493);
+            this.button_K.Location = new System.Drawing.Point(838, 412);
             this.button_K.Name = "button_K";
             this.button_K.Size = new System.Drawing.Size(75, 75);
             this.button_K.TabIndex = 11;
@@ -292,7 +292,7 @@
             // 
             this.button_U.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_U.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_U.Location = new System.Drawing.Point(293, 574);
+            this.button_U.Location = new System.Drawing.Point(636, 493);
             this.button_U.Name = "button_U";
             this.button_U.Size = new System.Drawing.Size(75, 75);
             this.button_U.TabIndex = 26;
@@ -304,7 +304,7 @@
             // 
             this.button_T.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_T.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_T.Location = new System.Drawing.Point(212, 574);
+            this.button_T.Location = new System.Drawing.Point(555, 493);
             this.button_T.Name = "button_T";
             this.button_T.Size = new System.Drawing.Size(75, 75);
             this.button_T.TabIndex = 25;
@@ -316,7 +316,7 @@
             // 
             this.button_S.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_S.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_S.Location = new System.Drawing.Point(819, 493);
+            this.button_S.Location = new System.Drawing.Point(474, 493);
             this.button_S.Name = "button_S";
             this.button_S.Size = new System.Drawing.Size(75, 75);
             this.button_S.TabIndex = 24;
@@ -328,7 +328,7 @@
             // 
             this.button_R.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_R.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_R.Location = new System.Drawing.Point(738, 493);
+            this.button_R.Location = new System.Drawing.Point(393, 493);
             this.button_R.Name = "button_R";
             this.button_R.Size = new System.Drawing.Size(75, 75);
             this.button_R.TabIndex = 23;
@@ -340,7 +340,7 @@
             // 
             this.button_Q.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Q.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Q.Location = new System.Drawing.Point(657, 493);
+            this.button_Q.Location = new System.Drawing.Point(312, 493);
             this.button_Q.Name = "button_Q";
             this.button_Q.Size = new System.Drawing.Size(75, 75);
             this.button_Q.TabIndex = 22;
@@ -352,7 +352,7 @@
             // 
             this.button_P.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_P.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_P.Location = new System.Drawing.Point(576, 493);
+            this.button_P.Location = new System.Drawing.Point(231, 493);
             this.button_P.Name = "button_P";
             this.button_P.Size = new System.Drawing.Size(75, 75);
             this.button_P.TabIndex = 21;
@@ -364,7 +364,7 @@
             // 
             this.button_O.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_O.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_O.Location = new System.Drawing.Point(495, 493);
+            this.button_O.Location = new System.Drawing.Point(150, 493);
             this.button_O.Name = "button_O";
             this.button_O.Size = new System.Drawing.Size(75, 75);
             this.button_O.TabIndex = 20;
@@ -376,7 +376,7 @@
             // 
             this.button_Ñ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Ñ.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Ñ.Location = new System.Drawing.Point(414, 493);
+            this.button_Ñ.Location = new System.Drawing.Point(69, 493);
             this.button_Ñ.Name = "button_Ñ";
             this.button_Ñ.Size = new System.Drawing.Size(75, 75);
             this.button_Ñ.TabIndex = 19;
@@ -388,7 +388,7 @@
             // 
             this.button_H.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_H.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_H.Location = new System.Drawing.Point(657, 412);
+            this.button_H.Location = new System.Drawing.Point(595, 412);
             this.button_H.Name = "button_H";
             this.button_H.Size = new System.Drawing.Size(75, 75);
             this.button_H.TabIndex = 28;
@@ -400,7 +400,7 @@
             // 
             this.button_X.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_X.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_X.Location = new System.Drawing.Point(536, 574);
+            this.button_X.Location = new System.Drawing.Point(879, 493);
             this.button_X.Name = "button_X";
             this.button_X.Size = new System.Drawing.Size(75, 75);
             this.button_X.TabIndex = 27;
@@ -412,7 +412,7 @@
             // 
             this.button_Z.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Z.Font = new System.Drawing.Font("Impact", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Z.Location = new System.Drawing.Point(698, 574);
+            this.button_Z.Location = new System.Drawing.Point(1041, 493);
             this.button_Z.Name = "button_Z";
             this.button_Z.Size = new System.Drawing.Size(75, 75);
             this.button_Z.TabIndex = 29;
@@ -438,7 +438,7 @@
             this.button_settings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button_settings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_settings.ForeColor = System.Drawing.Color.White;
-            this.button_settings.Location = new System.Drawing.Point(922, 12);
+            this.button_settings.Location = new System.Drawing.Point(1122, 12);
             this.button_settings.Name = "button_settings";
             this.button_settings.Size = new System.Drawing.Size(50, 50);
             this.button_settings.TabIndex = 31;
@@ -450,7 +450,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(984, 681);
+            this.ClientSize = new System.Drawing.Size(1184, 583);
             this.Controls.Add(this.button_settings);
             this.Controls.Add(this.label_text_historial);
             this.Controls.Add(this.button_Z);
@@ -484,8 +484,8 @@
             this.Controls.Add(this.label_puntaje);
             this.Controls.Add(this.label_titulo);
             this.KeyPreview = true;
-            this.MaximumSize = new System.Drawing.Size(1000, 720);
-            this.MinimumSize = new System.Drawing.Size(1000, 720);
+            this.MaximumSize = new System.Drawing.Size(1200, 622);
+            this.MinimumSize = new System.Drawing.Size(1200, 622);
             this.Name = "GameForm";
             this.Text = "Ahorcado";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameForm_FormClosing);
