@@ -48,7 +48,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 339);
+            this.label1.Location = new System.Drawing.Point(9, 339);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(178, 13);
             this.label1.TabIndex = 0;
@@ -57,16 +57,16 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(266, 339);
+            this.label2.Location = new System.Drawing.Point(263, 339);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 13);
+            this.label2.Size = new System.Drawing.Size(45, 13);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Version: 1.0";
+            this.label2.Text = "Version:";
             // 
             // linkLabel_donos
             // 
             this.linkLabel_donos.AutoSize = true;
-            this.linkLabel_donos.Location = new System.Drawing.Point(196, 339);
+            this.linkLabel_donos.Location = new System.Drawing.Point(193, 339);
             this.linkLabel_donos.Name = "linkLabel_donos";
             this.linkLabel_donos.Size = new System.Drawing.Size(64, 13);
             this.linkLabel_donos.TabIndex = 2;
@@ -125,7 +125,7 @@
             this.button_ReportWord.Name = "button_ReportWord";
             this.button_ReportWord.Size = new System.Drawing.Size(317, 40);
             this.button_ReportWord.TabIndex = 6;
-            this.button_ReportWord.Text = "Reportar Palabra";
+            this.button_ReportWord.Text = "Reportar un problema";
             this.button_ReportWord.UseVisualStyleBackColor = false;
             // 
             // button_ResetScore
@@ -155,6 +155,8 @@
             this.Controls.Add(this.linkLabel_donos);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.MaximumSize = new System.Drawing.Size(356, 400);
+            this.MinimumSize = new System.Drawing.Size(356, 400);
             this.Name = "SettingsAndAbout";
             this.Text = "Settings And About";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SettingsAndAbout_FormClosing);

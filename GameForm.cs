@@ -25,6 +25,7 @@ namespace Ahorcado
         string WrongGuessLetters = "";
         string ScorePath = "";
         string WORD;
+        public static string version = "1.0.1";
 
         public static int Puntaje = 0;
         int attempts = 7;
@@ -500,7 +501,6 @@ namespace Ahorcado
         /// <param name="e"></param>
         private void button_settings_Click(object sender, EventArgs e)
         {
-            sound_Click.Play();
             SettingsAndAbout SettingsWindow = new SettingsAndAbout();
             SettingsWindow.Owner = this;
             SettingsWindow.ShowDialog();
@@ -926,10 +926,6 @@ namespace Ahorcado
             UpdateWord('Z');
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int[] test = new int[5];
-            Console.WriteLine(test[6]);
-        }
     }
 }
+  

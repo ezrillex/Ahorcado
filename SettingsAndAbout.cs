@@ -50,6 +50,7 @@ namespace Ahorcado
         private void SettingsAndAbout_Load(object sender, EventArgs e)
         {
             checkBox_antialiasing.Checked = GameForm.AntialiasEnabled;
+            label2.Text += GameForm.version;
         }
 
         private void button_ResetScore_Click(object sender, EventArgs e)
