@@ -20,7 +20,7 @@ namespace Ahorcado
 
     public partial class GameForm : Form
     {
-        string GameWord = "";
+        public static string GameWord = "";
         string WordGuess = "";
         string WrongGuessLetters = "";
         string ScorePath = "";
@@ -57,7 +57,7 @@ namespace Ahorcado
         
         Label[] HistoryLabels;
 
-        CustomStringStack History = new CustomStringStack(5);
+        public static readonly CustomStringStack History = new CustomStringStack(5);
 
         SQLiteCommand DB_Command;
 

@@ -10,7 +10,7 @@ namespace Ahorcado
     /// <summary>
     /// Custom Data structure to hold in an array the last x strings pushed.
     /// </summary>
-    struct CustomStringStack
+    public struct CustomStringStack
     {
         public readonly string[] items;
         public readonly bool[] status;
@@ -51,6 +51,17 @@ namespace Ahorcado
             // Put the string on position 0
             items[0] = s;
             status[0] = b;
+        }
+
+        public string ToSerializedUnverified() 
+        {
+            string serial = "[";
+            foreach(string s in items)
+            {
+                serial += s + ",";
+            }
+            serial += "]";
+            return serial;
         }
     }
 }
