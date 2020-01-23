@@ -66,10 +66,11 @@ namespace Ahorcado
     {
         string GameWord = "";
         string WordGuess = "";
+        string WrongGuessLetters = "";
         string ScorePath = "";
         string WORD;
 
-        int Puntaje = 0;
+        public static int Puntaje = 0;
         int attempts = 7;
         int ID;
         int RIGHT;
@@ -78,7 +79,8 @@ namespace Ahorcado
 
         bool GameStarted = false;
         bool REPORTED;
-
+        public static bool AntialiasEnabled = true;
+        
         Graphics g;
 
         SQLiteConnection DB_Connection;
@@ -87,6 +89,7 @@ namespace Ahorcado
         SoundPlayer sound_Wrong;
         SoundPlayer sound_Lose;
         SoundPlayer sound_Win;
+        SoundPlayer sound_Click;
         
         Pen BlackPen;
         Pen RedPen;
@@ -100,6 +103,7 @@ namespace Ahorcado
         CustomStringStack History = new CustomStringStack(5);
 
         SQLiteCommand DB_Command;
+
 
         public GameForm()
         {
@@ -139,13 +143,12 @@ namespace Ahorcado
             // Update score with value loaded
             label_puntaje.Text = "Puntaje: " + Puntaje;
 
-
-
             // Initialize sound
             sound_Correct = new SoundPlayer("Correct.wav");
             sound_Wrong = new SoundPlayer("Wrong.wav");
             sound_Lose = new SoundPlayer("Lose.wav");
             sound_Win = new SoundPlayer("Win.wav");
+            sound_Click = new SoundPlayer("Click.wav");
 
             // Create graphics object and pen
             g = this.CreateGraphics();
@@ -154,7 +157,15 @@ namespace Ahorcado
             GreenPen = new Pen(Color.Green, 3);
 
             // Enable antialiasing to reduce aliasing in lines
-            g.SmoothingMode = SmoothingMode.AntiAlias;
+            if(AntialiasEnabled == true)
+            {
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+            }
+            else
+            {
+                g.SmoothingMode = SmoothingMode.None;
+            }
+            
 
             // Connect to word database
             string ProgramPath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -253,6 +264,17 @@ namespace Ahorcado
         private void UpdateScreen(Pen RectPen)
         {
             g.Clear(Color.White); // Clear Screen
+
+            // Changes antialiasing according to form static property.
+            if (AntialiasEnabled == true)
+            {
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+            }
+            else if(AntialiasEnabled == false)
+            {
+                g.SmoothingMode = SmoothingMode.None;
+            }
+
             Font myFont = new Font("Courier New", 48);
             myFont = new Font(myFont, FontStyle.Bold); // Defines font, Courier New; 48pt; style=Bold
 
@@ -340,10 +362,13 @@ namespace Ahorcado
             WRONG = DB_Reader.GetInt32(4);
             APPEARED = DB_Reader.GetInt32(5);
 
+            DB_Reader.Close();
+
             // Set the GameWord as the word selected by the database
             GameWord = WORD.ToUpper();
             APPEARED++;
 
+            WrongGuessLetters = "";// reset wrong guessed letters
             WordGuess = ""; // Initialize WordGuess with the appropiate size
             for (int i = 0; i < GameWord.Length; i++)
             {
@@ -379,6 +404,8 @@ namespace Ahorcado
             Pen MatchPen = RedPen; // Initializes the pen to send as red by default.
             bool AnyMatchFound = false;
             bool MatchFound = false;
+            bool RepeatedMatch = false;
+            bool isReapeatedInWrongGuess = false;
             string LocalGuess = "";
             // Find the character that was passed.
             for(int i = 0; i < GameWord.Length; i++)
@@ -405,7 +432,11 @@ namespace Ahorcado
                             sameGuess = true;
                         }
                     }
-                    if(sameGuess == false)
+                    if(sameGuess == true)
+                    {
+                        RepeatedMatch = true;
+                    }
+                    else
                     {
                         Puntaje++;
                     }
@@ -420,7 +451,19 @@ namespace Ahorcado
 
             if (AnyMatchFound == false)
             {
-                attempts--;
+                
+                for (int i = 0; i < WrongGuessLetters.Length; i++)
+                {
+                    if (WrongGuessLetters[i] == c)
+                    {
+                        isReapeatedInWrongGuess = true;
+                    }
+                }
+                if (isReapeatedInWrongGuess == false)
+                {
+                    WrongGuessLetters += c;
+                    attempts--;
+                }
             }
 
             // Change the word and reset attempt tracking
@@ -430,6 +473,10 @@ namespace Ahorcado
                 sound_Win.Play();
                 attempts = 7;
                 InitializeWord();
+                foreach(Button b in GameButtons)
+                {
+                    b.BackColor = Color.White;
+                }
             }
             else if(attempts == 0)
             {
@@ -437,16 +484,22 @@ namespace Ahorcado
                 sound_Lose.Play();
                 attempts = 7;
                 InitializeWord(false);
+                foreach (Button b in GameButtons)
+                {
+                    b.BackColor = Color.White;
+                }
             }
             else
             {
-                if (AnyMatchFound == false)
+                if (AnyMatchFound == false & isReapeatedInWrongGuess == false)
                 {
                     sound_Wrong.Play();
+                    this.Controls.Find("button_" + c, false)[0].BackColor = Color.Red;
                 }
-                else
+                else if(AnyMatchFound == true & RepeatedMatch == false)
                 {
                     sound_Correct.Play();
+                    this.Controls.Find("button_" + c, false)[0].BackColor = Color.Green;
                 }
                 UpdateScreen(MatchPen); 
             }
@@ -459,6 +512,8 @@ namespace Ahorcado
         /// <param name="e"></param>
         private void PlayButton_Click(object sender, EventArgs e)
         {
+            sound_Click.Play();
+
             // Hide Play button
             PlayButton.Visible = false;
             PlayButton.Enabled = false;
@@ -489,6 +544,7 @@ namespace Ahorcado
         /// <param name="e"></param>
         private void button_settings_Click(object sender, EventArgs e)
         {
+            sound_Click.Play();
             SettingsAndAbout SettingsWindow = new SettingsAndAbout();
             SettingsWindow.Owner = this;
             SettingsWindow.ShowDialog();
@@ -516,6 +572,7 @@ namespace Ahorcado
             sound_Lose.Dispose();
             sound_Win.Dispose();
             sound_Wrong.Dispose();
+            sound_Click.Dispose();
         }
 
         /// <summary>
