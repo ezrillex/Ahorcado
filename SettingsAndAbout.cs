@@ -86,26 +86,26 @@ namespace Ahorcado
 
         private void button_ReportWord_Click(object sender, EventArgs e)
         {
+            sound_Click.Play();
             try
             {
                 string ContenidoDeReporte = GameForm.History.ToSerializedUnverified();
-
                 SentrySdk.CaptureEvent(new SentryEvent(new Exception("User is reporting game word " + GameForm.GameWord + " with history of "+GameForm.History.ToSerializedUnverified())));
+                MessageBox.Show("La palabra fue reportada exitosamente. Tomaremos su retroalimentacion en cuenta en futuras actualizaciones.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 
-                /*var a = SentrySdk.LastEventId;
-
-                var responseString = await "https://sentry.io/api/0/projects/ezra-abarca/ahorcado-csharp-pc/user-feedback/"
-                    .WithHeader("Authorization", "DSN https://f3eeb95f9d5c4085b3d1672f3ff4cb74@sentry.io/1894899")
-                    .PostUrlEncodedAsync(new { comments = "it works?!", email = "ezrillex@gmail.com", event_id = a, name ="rolex" })
-                    .ReceiveString();
-
-                MessageBox.Show("La palabra fue reportada exitosamente. Tomaremos su retroalimentacion en cuenta en futuras actualizaciones.");
-                */
             }catch(Exception ex)
             {
                 SentrySdk.CaptureEvent(new SentryEvent(ex));
-                MessageBox.Show("Ocurrio un error al enviar el reporte. Esto tambien ha sido reportado, gracias por reportar.");
+                MessageBox.Show("Ocurrio un error al enviar el reporte. Esto ha sido reportado, gracias por su tiempo.", "Error al enviar palabras", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            sound_Click.Play();
+            SendFeedback sendFeedback = new SendFeedback();
+            sendFeedback.Owner = this;
+            sendFeedback.ShowDialog();
         }
     }
 }

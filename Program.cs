@@ -15,7 +15,12 @@ namespace Ahorcado
         [STAThread]
         static void Main()
         {
-            using (SentrySdk.Init("https://f3eeb95f9d5c4085b3d1672f3ff4cb74@sentry.io/1894899"))
+            using (SentrySdk.Init(o =>
+            {
+                o.Dsn = new Dsn("https://f3eeb95f9d5c4085b3d1672f3ff4cb74@sentry.io/1894899");
+                o.Release = "ahorcado-csharp-pc@" + GameForm.version;
+            }
+            ))
             {
                 // App code
                 Application.EnableVisualStyles();

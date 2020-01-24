@@ -138,15 +138,15 @@
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.White;
-            this.button1.Enabled = false;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Location = new System.Drawing.Point(13, 58);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(317, 40);
             this.button1.TabIndex = 8;
-            this.button1.Text = "Reportar palabra";
+            this.button1.Text = "Enviar Comentarios";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // SettingsAndAbout
             // 
@@ -166,7 +166,7 @@
             this.MaximumSize = new System.Drawing.Size(356, 400);
             this.MinimumSize = new System.Drawing.Size(356, 400);
             this.Name = "SettingsAndAbout";
-            this.Text = "Settings And About";
+            this.Text = "Configuración y acerca de";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SettingsAndAbout_FormClosing);
             this.Load += new System.EventHandler(this.SettingsAndAbout_Load);
             this.ResumeLayout(false);

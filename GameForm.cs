@@ -25,7 +25,7 @@ namespace Ahorcado
         string WrongGuessLetters = "";
         string ScorePath = "";
         string WORD;
-        public static string version = "1.0.1";
+        public static string version = "1.0.2";
 
         public static int Puntaje = 0;
         int attempts = 7;

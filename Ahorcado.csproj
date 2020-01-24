@@ -127,6 +127,12 @@
     <Compile Include="GameForm.Designer.cs">
       <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SendFeedback.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SendFeedback.Designer.cs">
+      <DependentUpon>SendFeedback.cs</DependentUpon>
+    </Compile>
     <Compile Include="SettingsAndAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,6 +154,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SendFeedback.resx">
+      <DependentUpon>SendFeedback.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SettingsAndAbout.resx">
       <DependentUpon>SettingsAndAbout.cs</DependentUpon>
     </EmbeddedResource>
