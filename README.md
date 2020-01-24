@@ -9,3 +9,5 @@ Modo oscuro.
 Estadisticas de aciertos.
 Modo multijugador (local).
 Notas del parche.
+
+![Captura de Pantalla de Ahorcado v1.0.1](image.png)
