@@ -114,6 +114,8 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button_sendfeedback);
+            this.MaximumSize = new System.Drawing.Size(440, 292);
+            this.MinimumSize = new System.Drawing.Size(440, 292);
             this.Name = "SendFeedback";
             this.Text = "Enviar comentarios";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SendFeedback_FormClosing);
