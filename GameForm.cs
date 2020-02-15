@@ -12,29 +12,14 @@ namespace Ahorcado
 {
     public partial class GameForm : Form
     {
+        public GameForm()
+        {
+            this.Hide();
+            InitializeComponent();
+        }
+
         #region DEFINITIONS
-
-        public static string GameWord = "";
-        string WordGuess = "";
-        string WrongGuessLetters = "";
-        string ScorePath = "";
-        string WORD;
-        public static string version = "1.0.4";
-
-        public static int Puntaje = 0;
-        int attempts = 7;
-        int ID;
-        int RIGHT;
-        int WRONG;
-        int APPEARED;
-
-        bool GameStarted = false;
-        bool REPORTED;
-        public static bool AntialiasEnabled = true;
-        
         Graphics g;
-
-        SQLiteConnection DB_Connection;
         
         Pen BlackPen;
         Pen RedPen;
@@ -44,47 +29,15 @@ namespace Ahorcado
         List<Label> GameLabels;
         
         Label[] HistoryLabels;
-
-        public static readonly CustomStringStack History = new CustomStringStack(5);
-
-        SQLiteCommand DB_Command;
-
         #endregion
-
-        public GameForm()
-        {
-            InitializeComponent();
-        }
 
         /// <summary>
         /// GameForm Loading Method. Handles most of the initialization of the program.
         /// </summary>
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Create or load a text file to permanently save score.
-            // Get exe path
-            ScorePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            ScorePath += "\\score.txt";
-
-            if (File.Exists(ScorePath))
-            {
-                // Load value stored in file.
-                using(StreamReader sr = File.OpenText(ScorePath))
-                {
-                    string s = sr.ReadToEnd();
-                    Puntaje = Convert.ToInt32(s);
-                }
-            }
-            else
-            {
-                // Create the file
-                using (StreamWriter fs = File.CreateText(ScorePath))
-                {
-                    fs.Write("0");
-                }
-            }
             // Update score with value loaded
-            label_puntaje.Text = "Puntaje: " + Puntaje;
+            label_puntaje.Text = "Puntaje: " + Data.Puntaje;
 
             // Create graphics object and pen
             g = this.CreateGraphics();
@@ -93,7 +46,7 @@ namespace Ahorcado
             GreenPen = new Pen(Color.Green, 3);
 
             // Enable antialiasing to reduce aliasing in lines
-            if(AntialiasEnabled == true)
+            if(Data.AntialiasEnabled == true)
             {
                 g.SmoothingMode = SmoothingMode.AntiAlias;
             }
@@ -101,20 +54,6 @@ namespace Ahorcado
             {
                 g.SmoothingMode = SmoothingMode.None;
             }
-
-            // Connect to word database
-            string ProgramPath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            ProgramPath += @"\WordDB.db";
-            DB_Connection = new SQLiteConnection("Data Source=" + ProgramPath + ";Version=3;");
-            try
-            {
-                DB_Connection.Open();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Fallo al conectar a la base de datos: " + ex.Message);
-            }
-            DB_Command = DB_Connection.CreateCommand();
 
             // Center Play Button
             PlayButton.Location = new Point((this.Size.Width - PlayButton.Width) / 2, (this.Size.Height - PlayButton.Height) / 2);
@@ -169,8 +108,8 @@ namespace Ahorcado
             }
 
             // Initialize history labels
-            HistoryLabels = new Label[History.size];
-            for(int i = 0; i < History.size; i++)
+            HistoryLabels = new Label[Data.History.size];
+            for(int i = 0; i < Data.History.size; i++)
             {
                 HistoryLabels[i] = new Label();
             }
@@ -188,6 +127,8 @@ namespace Ahorcado
             {
                 this.Controls.Add(HistoryLabels[i]);
             }
+
+            Data.LoadingFinished = true;
         }
 
         /// <summary>
@@ -199,11 +140,11 @@ namespace Ahorcado
             g.Clear(Color.White); // Clear Screen
 
             // Changes antialiasing according to form static property.
-            if (AntialiasEnabled == true)
+            if (Data.AntialiasEnabled == true)
             {
                 g.SmoothingMode = SmoothingMode.AntiAlias;
             }
-            else if(AntialiasEnabled == false)
+            else if(Data.AntialiasEnabled == false)
             {
                 g.SmoothingMode = SmoothingMode.None;
             }
@@ -211,7 +152,7 @@ namespace Ahorcado
             Font myFont = new Font("Courier New", 48);
             myFont = new Font(myFont, FontStyle.Bold); // Defines font, Courier New; 48pt; style=Bold
 
-            int WordSize = GameWord.Length;
+            int WordSize = Data.GameWord.Length;
 
             // calculate size of the word when using standalone letters
             Size LetterSize = new Size();
@@ -230,9 +171,9 @@ namespace Ahorcado
                 PointF CharSource = new PointF(source.X + (LetterSize.Width * i), source.Y);
 
                 // Draws the individual chars
-                if(WordGuess.Length > 0)
+                if(Data.WordGuess.Length > 0)
                 {
-                    g.DrawString(WordGuess[i].ToString(), myFont, Brushes.Black, CharSource);
+                    g.DrawString(Data.WordGuess[i].ToString(), myFont, Brushes.Black, CharSource);
                 }
 
                 // Draws Underlining
@@ -245,7 +186,7 @@ namespace Ahorcado
             // TODO +1 -1 Animations here or do Correct! Wrong! moving in matchcolor
 
             // Draw current stage of hangman based on attempt value.
-            DrawStickFigure(attempts);
+            DrawStickFigure(Data.attempts);
         }
 
         /// <summary>
@@ -254,66 +195,14 @@ namespace Ahorcado
         /// <param name="isCorrect">Determines if the last word was guessed succesfully or failed. By default assumes it was successfull</param>
         private void InitializeWord(bool isCorrect = true)
         {
-            History.push(GameWord, isCorrect); // Added current game word to history. It's important the first one is initialized as ""
-
-            // Update database with the new values BEFORE changing to a new word
-            if(GameStarted == true) // to avoid trying to make changes with uninitiated variables
-            {
-                if(isCorrect == true)
-                {
-                    RIGHT++;
-                }
-                else
-                {
-                    WRONG++;
-                }
-                DB_Command.CommandText = "update Words set right=?, wrong=?, appeared=? where ID=?";
-                DB_Command.Parameters.Clear();
-                DB_Command.Parameters.AddWithValue("right", RIGHT);
-                DB_Command.Parameters.AddWithValue("wrong", WRONG);
-                DB_Command.Parameters.AddWithValue("appeared", APPEARED);
-                DB_Command.Parameters.AddWithValue("ID", ID);
-                DB_Command.ExecuteNonQuery();
-                DB_Command.Parameters.Clear();
-            }
-
-            // Get a NEW random word from the Word Database
-            SQLiteDataReader DB_Reader;
-            DB_Command.CommandText = "select * from words order by random() limit 1;";
-            do
-            {
-                DB_Reader = DB_Command.ExecuteReader();
-                DB_Reader.Read();
-                REPORTED = DB_Reader.GetBoolean(2);
-            } while (REPORTED == true);
-            
-            ID = DB_Reader.GetInt32(0);
-            WORD = DB_Reader.GetString(1);
-            RIGHT = DB_Reader.GetInt32(3);
-            WRONG = DB_Reader.GetInt32(4);
-            APPEARED = DB_Reader.GetInt32(5);
-
-            DB_Reader.Close();
-
-            // Set the GameWord as the word selected by the database
-            GameWord = WORD.ToUpper();
-            APPEARED++;
-
-            WrongGuessLetters = "";// reset wrong guessed letters
-            WordGuess = ""; // Initialize WordGuess with the appropiate size
-            for (int i = 0; i < GameWord.Length; i++)
-            {
-                WordGuess = WordGuess + " ";
-            }
-            
-            
+            Data.GenerateNewWord(isCorrect);
 
             // Update history labels colors and text
             Font myFont = label_text_historial.Font;
-            for(int i = 0; i < History.size; i++)
+            for(int i = 0; i < Data.History.size; i++)
             {
-                HistoryLabels[i].Text = History.items[i];
-                if (History.status[i] == true)
+                HistoryLabels[i].Text = Data.History.items[i];
+                if (Data.History.status[i] == true)
                 {
                     HistoryLabels[i].ForeColor = Color.Green;
                 }
@@ -332,87 +221,27 @@ namespace Ahorcado
         /// <param name="c">Input to process</param>
         private void UpdateWord(char c)
         {
-            Pen MatchPen = RedPen; // Initializes the pen to send as red by default.
-            bool AnyMatchFound = false;
-            bool MatchFound = false;
-            bool RepeatedMatch = false;
-            bool isReapeatedInWrongGuess = false;
-            string LocalGuess = "";
-            // Find the character that was passed.
-            for(int i = 0; i < GameWord.Length; i++)
-            {
-                if(GameWord[i] == c)
-                {
-                    LocalGuess = LocalGuess + c;
-                    MatchFound = true;
-                }
-                else
-                {
-                    LocalGuess = LocalGuess + WordGuess[i];
-                }
+            Data.UpdateWord(c);
 
-                // Account the score. Update pen to green since a match was found
-                if(MatchFound == true)
-                {
-                    AnyMatchFound = true;
-                    bool sameGuess = false;
-                    for(int j= 0; j < WordGuess.Length; j++)
-                    {
-                        if (c == WordGuess[j]) 
-                        {
-                            sameGuess = true;
-                        }
-                    }
-                    if(sameGuess == true)
-                    {
-                        RepeatedMatch = true;
-                    }
-                    else
-                    {
-                        Puntaje++;
-                    }
-                    MatchPen = GreenPen;
-                    MatchFound = false;
-                }
-            }
-
-            WordGuess = LocalGuess;
-            
-            label_puntaje.Text = "Puntaje: " + Puntaje;
-
-            if (AnyMatchFound == false)
-            {
-                for (int i = 0; i < WrongGuessLetters.Length; i++)
-                {
-                    if (WrongGuessLetters[i] == c)
-                    {
-                        isReapeatedInWrongGuess = true;
-                    }
-                }
-                if (isReapeatedInWrongGuess == false)
-                {
-                    WrongGuessLetters += c;
-                    attempts--;
-                }
-            }
+            label_puntaje.Text = "Puntaje: " + Data.Puntaje;
 
             // Change the word and reset attempt tracking
-            if (WordGuess == GameWord)
+            if (Data.WordGuess == Data.GameWord)
             {
                 // Win condition. 
                 Sonido.Win();
-                attempts = 7;
+                Data.attempts = 7;
                 InitializeWord();
                 foreach(Button b in GameButtons)
                 {
                     b.BackColor = Color.White;
                 }
             }
-            else if(attempts == 0)
+            else if(Data.attempts == 0)
             {
                 // Lose condition.
                 Sonido.Lose();
-                attempts = 7;
+                Data.attempts = 7;
                 InitializeWord(false);
                 foreach (Button b in GameButtons)
                 {
@@ -421,17 +250,25 @@ namespace Ahorcado
             }
             else
             {
-                if (AnyMatchFound == false & isReapeatedInWrongGuess == false)
+                if (Data.AnyMatchFound == false & Data.isReapeatedInWrongGuess == false)
                 {
                     Sonido.Wrong();
                     this.Controls.Find("button_" + c, false)[0].BackColor = Color.Red;
                 }
-                else if(AnyMatchFound == true & RepeatedMatch == false)
+                else if(Data.AnyMatchFound == true & Data.RepeatedMatch == false)
                 {
                     Sonido.Correct();
                     this.Controls.Find("button_" + c, false)[0].BackColor = Color.Green;
                 }
-                UpdateScreen(MatchPen); 
+
+                if(Data.PenColorValue is true)
+                {
+                    UpdateScreen(GreenPen);
+                }
+                else
+                {
+                    UpdateScreen(RedPen);
+                }
             }
         }
 
@@ -461,7 +298,7 @@ namespace Ahorcado
             }
 
             InitializeWord();
-            GameStarted = true;
+            Data.GameStarted = true;
         }
 
         /// <summary>
@@ -479,12 +316,6 @@ namespace Ahorcado
         /// </summary>
         private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Save score
-            File.WriteAllText(ScorePath, Puntaje.ToString());
-
-            // Close database connection
-            DB_Connection.Close();
-
             // Is there more resources to dispose? 
             BlackPen.Dispose();
             RedPen.Dispose();
@@ -650,7 +481,7 @@ namespace Ahorcado
         /// </summary>
         private void GameForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if(GameStarted == true)
+            if(Data.GameStarted == true)
             {
                 Keys key = e.KeyCode;
                 switch (key)

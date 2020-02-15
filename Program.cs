@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Sentry;
@@ -19,20 +20,19 @@ namespace Ahorcado
             using (SentrySdk.Init(o =>
             {
                 o.Dsn = new Dsn("https://f3eeb95f9d5c4085b3d1672f3ff4cb74@sentry.io/1894899");
-                o.Release = "ahorcado-csharp-pc@" + GameForm.version;
+                o.Release = "ahorcado-csharp-pc@" + Data.version;
             }
             ))
             {
-                // Initialize sound layer
-                Sonido.Init();
-
                 // App code
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new GameForm());
+                Application.Run(new SplashScreen()); // Initialization
+                Application.Run(new GameForm()); // Main Game
 
                 // Dispose unusued resources
                 Sonido.Dispose();
+                Data.Dispose();
             }
             
         }

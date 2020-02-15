@@ -28,18 +28,18 @@ namespace Ahorcado
 
             if (checkBox_antialiasing.Checked == true)
             {
-                GameForm.AntialiasEnabled = true;
+                Data.AntialiasEnabled = true;
             }
             else if (checkBox_antialiasing.Checked == false)
             {
-                GameForm.AntialiasEnabled = false;
+                Data.AntialiasEnabled = false;
             }
         }
 
         private void SettingsAndAbout_Load(object sender, EventArgs e)
         {
-            checkBox_antialiasing.Checked = GameForm.AntialiasEnabled;
-            label2.Text += GameForm.version;
+            checkBox_antialiasing.Checked = Data.AntialiasEnabled;
+            label2.Text += Data.version;
         }
 
         private void button_ResetScore_Click(object sender, EventArgs e)
@@ -55,7 +55,7 @@ namespace Ahorcado
 
             if (dialogResult == DialogResult.Yes)
             {
-                GameForm.Puntaje = 0;
+                Data.Puntaje = 0;
 
                 MessageBox.Show
                     ("El puntaje ha sido reiniciado a 0",
@@ -72,8 +72,8 @@ namespace Ahorcado
             Sonido.Click();
             try
             {
-                string ContenidoDeReporte = GameForm.History.ToSerializedUnverified();
-                SentrySdk.CaptureEvent(new SentryEvent(new Exception("User is reporting words: "+GameForm.History.ToSerializedUnverified())));
+                string ContenidoDeReporte = Data.History.ToSerializedUnverified();
+                SentrySdk.CaptureEvent(new SentryEvent(new Exception("User is reporting words: " + Data.History.ToSerializedUnverified())));
                 MessageBox.Show("La palabra fue reportada exitosamente. Tomaremos su retroalimentacion en cuenta en futuras actualizaciones.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 
             }catch(Exception ex)
