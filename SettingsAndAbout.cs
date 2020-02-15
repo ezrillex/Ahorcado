@@ -90,12 +90,12 @@ namespace Ahorcado
             try
             {
                 string ContenidoDeReporte = GameForm.History.ToSerializedUnverified();
-                SentrySdk.CaptureEvent(new SentryEvent(new Exception("User is reporting game word " + GameForm.GameWord + " with history of "+GameForm.History.ToSerializedUnverified())));
+                SentrySdk.CaptureEvent(new SentryEvent(new Exception("User is reporting words: "+GameForm.History.ToSerializedUnverified())));
                 MessageBox.Show("La palabra fue reportada exitosamente. Tomaremos su retroalimentacion en cuenta en futuras actualizaciones.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 
             }catch(Exception ex)
             {
-                SentrySdk.CaptureEvent(new SentryEvent(ex));
+                SentrySdk.CaptureException(ex);
                 MessageBox.Show("Ocurrio un error al enviar el reporte. Esto ha sido reportado, gracias por su tiempo.", "Error al enviar palabras", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

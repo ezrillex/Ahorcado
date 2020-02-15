@@ -20,12 +20,14 @@ namespace Ahorcado
 
     public partial class GameForm : Form
     {
+        #region DEFINITIONS
+
         public static string GameWord = "";
         string WordGuess = "";
         string WrongGuessLetters = "";
         string ScorePath = "";
         string WORD;
-        public static string version = "1.0.2";
+        public static string version = "1.0.3";
 
         public static int Puntaje = 0;
         int attempts = 7;
@@ -61,6 +63,7 @@ namespace Ahorcado
 
         SQLiteCommand DB_Command;
 
+        #endregion
 
         public GameForm()
         {
@@ -70,8 +73,6 @@ namespace Ahorcado
         /// <summary>
         /// GameForm Loading Method. Handles most of the initialization of the program.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
             // Create or load a text file to permanently save score.
