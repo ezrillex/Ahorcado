@@ -21,9 +21,9 @@ namespace Ahorcado
         #region DEFINITIONS
         Graphics g;
         
-        Pen BlackPen;
         Pen RedPen;
         Pen GreenPen;
+        
         
         List<Button> GameButtons;
         List<Label> GameLabels;
@@ -41,7 +41,6 @@ namespace Ahorcado
 
             // Create graphics object and pen
             g = this.CreateGraphics();
-            BlackPen = new Pen(Color.Black, 3);
             RedPen = new Pen(Color.Red, 3);
             GreenPen = new Pen(Color.Green, 3);
 
@@ -93,6 +92,7 @@ namespace Ahorcado
             {
                 b.Visible = false;
                 b.Enabled = false;
+                b.Parent = this;
             }
 
             // Create a list of labels associated with the game
@@ -128,7 +128,30 @@ namespace Ahorcado
                 this.Controls.Add(HistoryLabels[i]);
             }
 
+            UpdateControlColors();
+
             Data.LoadingFinished = true;
+        }
+
+        private void UpdateControlColors()
+        {
+            if (Data.RecentlyChangedTheme is true)
+            {
+                // swap colors of controls
+                this.BackColor = Data.GlobalBackColor;
+                this.ForeColor = Data.GlobalForeColor;
+                label_titulo.BackColor = Data.GlobalBackColor;
+                label_titulo.ForeColor = Data.GlobalForeColor;
+                button_settings.BackColor = Color.White; // Always white to keep cog visible.
+                label_text_historial.BackColor = Data.GlobalBackColor;
+                label_text_historial.ForeColor = Data.GlobalForeColor;
+                PlayButton.BackColor = Data.GlobalBackColor;
+                PlayButton.ForeColor = Data.GlobalForeColor;
+
+
+
+                Data.RecentlyChangedTheme = false;
+            }
         }
 
         /// <summary>
@@ -137,17 +160,20 @@ namespace Ahorcado
         /// <param name="RectPen">The pen used to draw the rectangle around the word. Used to color.</param>
         private void UpdateScreen(Pen RectPen)
         {
-            g.Clear(Color.White); // Clear Screen
-
             // Changes antialiasing according to form static property.
-            if (Data.AntialiasEnabled == true)
+            if (Data.AntialiasEnabled is true)
             {
                 g.SmoothingMode = SmoothingMode.AntiAlias;
             }
-            else if(Data.AntialiasEnabled == false)
+            else if(Data.AntialiasEnabled is false)
             {
                 g.SmoothingMode = SmoothingMode.None;
             }
+
+            // Changes dark mode according to static property.
+            UpdateControlColors();
+            
+            g.Clear(Data.GlobalBackColor); // Clear Screen
 
             Font myFont = new Font("Courier New", 48);
             myFont = new Font(myFont, FontStyle.Bold); // Defines font, Courier New; 48pt; style=Bold
@@ -173,17 +199,15 @@ namespace Ahorcado
                 // Draws the individual chars
                 if(Data.WordGuess.Length > 0)
                 {
-                    g.DrawString(Data.WordGuess[i].ToString(), myFont, Brushes.Black, CharSource);
+                    g.DrawString(Data.WordGuess[i].ToString(), myFont, Data.GlobalBrushColor, CharSource);
                 }
 
                 // Draws Underlining
-                g.DrawLine(BlackPen, CharSource.X + 10, CharSource.Y + LetterSize.Height - 20, CharSource.X + LetterSize.Width - 10, CharSource.Y + LetterSize.Height - 20);
+                g.DrawLine(Data.GlobalPenColor, CharSource.X + 10, CharSource.Y + LetterSize.Height - 20, CharSource.X + LetterSize.Width - 10, CharSource.Y + LetterSize.Height - 20);
             }
 
             // Draws a rectangle around the text drawn
             g.DrawRectangle(RectPen, WordRect.X, WordRect.Y, WordRect.Width, WordRect.Height);
-
-            // TODO +1 -1 Animations here or do Correct! Wrong! moving in matchcolor
 
             // Draw current stage of hangman based on attempt value.
             DrawStickFigure(Data.attempts);
@@ -212,7 +236,7 @@ namespace Ahorcado
                 }
             }
 
-            UpdateScreen(BlackPen);
+            UpdateScreen(Data.GlobalPenColor);
         }
 
         /// <summary>
@@ -222,6 +246,43 @@ namespace Ahorcado
         private void UpdateWord(char c)
         {
             Data.UpdateWord(c);
+            UpdateControlColors();
+
+            int blacks = 0;
+            int whites = 0;
+            foreach(Button b in GameButtons)
+            {
+                if(b.BackColor == Color.Black)
+                {
+                    blacks++;
+                }
+                else if(b.BackColor == Color.White)
+                {
+                    whites++;
+                }
+            }
+            if(this.BackColor == Color.Black && whites > blacks)
+            {
+                // force update
+                UpdateScreen(Data.GlobalPenColor);
+                Data.RecentlyChangedTheme = true;
+                foreach(Button b in GameButtons)
+                {
+                    b.BackColor = Data.GlobalBackColor;
+                    b.ForeColor = Data.GlobalForeColor;
+                }
+            }
+            else if(this.BackColor == Color.White && blacks > whites)
+            {
+                // force update
+                UpdateScreen(Data.GlobalPenColor);
+                Data.RecentlyChangedTheme = true;
+                foreach (Button b in GameButtons)
+                {
+                    b.BackColor = Data.GlobalBackColor;
+                    b.ForeColor = Data.GlobalForeColor;
+                }
+            }
 
             label_puntaje.Text = "Puntaje: " + Data.Puntaje;
 
@@ -234,7 +295,7 @@ namespace Ahorcado
                 InitializeWord();
                 foreach(Button b in GameButtons)
                 {
-                    b.BackColor = Color.White;
+                    b.BackColor = Data.GlobalBackColor;
                 }
             }
             else if(Data.attempts == 0)
@@ -245,7 +306,7 @@ namespace Ahorcado
                 InitializeWord(false);
                 foreach (Button b in GameButtons)
                 {
-                    b.BackColor = Color.White;
+                    b.BackColor = Data.GlobalBackColor;
                 }
             }
             else
@@ -278,6 +339,8 @@ namespace Ahorcado
         private void PlayButton_Click(object sender, EventArgs e)
         {
             Sonido.Click();
+
+
 
             // Hide Play button
             PlayButton.Visible = false;
@@ -317,7 +380,6 @@ namespace Ahorcado
         private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Is there more resources to dispose? 
-            BlackPen.Dispose();
             RedPen.Dispose();
             GreenPen.Dispose();
             g.Dispose();
@@ -332,8 +394,8 @@ namespace Ahorcado
             Point headPos = new Point(this.Width / 2, 120);
             Size headSize = new Size(50, 50);
             Rectangle head = new Rectangle(headPos, headSize);
-            Pen RopePen = new Pen(Color.Black, 5);
-            Pen StickFigurePen = BlackPen;
+            Pen RopePen = new Pen(Data.GlobalPenColor.Color, 5);
+            Pen StickFigurePen = Data.GlobalPenColor;
 
             switch (stage)
             {

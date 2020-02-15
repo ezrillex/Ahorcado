@@ -73,22 +73,22 @@
             // 
             this.checkBox_darkmode.AutoSize = true;
             this.checkBox_darkmode.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox_darkmode.Enabled = false;
             this.checkBox_darkmode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_darkmode.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox_darkmode.Location = new System.Drawing.Point(72, 192);
+            this.checkBox_darkmode.Location = new System.Drawing.Point(72, 196);
             this.checkBox_darkmode.Name = "checkBox_darkmode";
             this.checkBox_darkmode.Size = new System.Drawing.Size(197, 35);
             this.checkBox_darkmode.TabIndex = 3;
             this.checkBox_darkmode.Text = "Modo oscuro";
             this.checkBox_darkmode.UseVisualStyleBackColor = true;
+            this.checkBox_darkmode.CheckedChanged += new System.EventHandler(this.checkBox_darkmode_CheckedChanged);
             // 
             // button_cerrar
             // 
             this.button_cerrar.BackColor = System.Drawing.Color.White;
             this.button_cerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_cerrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_cerrar.Location = new System.Drawing.Point(128, 294);
+            this.button_cerrar.Location = new System.Drawing.Point(120, 294);
             this.button_cerrar.Name = "button_cerrar";
             this.button_cerrar.Size = new System.Drawing.Size(100, 40);
             this.button_cerrar.TabIndex = 4;
@@ -102,7 +102,7 @@
             this.checkBox_antialiasing.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBox_antialiasing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_antialiasing.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox_antialiasing.Location = new System.Drawing.Point(88, 233);
+            this.checkBox_antialiasing.Location = new System.Drawing.Point(88, 237);
             this.checkBox_antialiasing.Name = "checkBox_antialiasing";
             this.checkBox_antialiasing.Size = new System.Drawing.Size(181, 35);
             this.checkBox_antialiasing.TabIndex = 5;

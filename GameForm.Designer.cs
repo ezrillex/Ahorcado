@@ -437,7 +437,7 @@
             this.button_settings.BackgroundImage = global::Ahorcado.Properties.Resources.cog;
             this.button_settings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button_settings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_settings.ForeColor = System.Drawing.Color.White;
+            this.button_settings.ForeColor = System.Drawing.Color.Transparent;
             this.button_settings.Location = new System.Drawing.Point(1122, 12);
             this.button_settings.Name = "button_settings";
             this.button_settings.Size = new System.Drawing.Size(50, 50);
@@ -483,6 +483,7 @@
             this.Controls.Add(this.PlayButton);
             this.Controls.Add(this.label_puntaje);
             this.Controls.Add(this.label_titulo);
+            this.ForeColor = System.Drawing.Color.Black;
             this.KeyPreview = true;
             this.MaximumSize = new System.Drawing.Size(1200, 622);
             this.MinimumSize = new System.Drawing.Size(1200, 622);

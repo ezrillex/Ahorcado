@@ -39,6 +39,7 @@ namespace Ahorcado
         private void SettingsAndAbout_Load(object sender, EventArgs e)
         {
             checkBox_antialiasing.Checked = Data.AntialiasEnabled;
+            checkBox_darkmode.Checked = Data.DarkMode;
             label2.Text += Data.version;
         }
 
@@ -93,8 +94,26 @@ namespace Ahorcado
 
         private void button_Notas_Click(object sender, EventArgs e)
         {
+            Sonido.Click();
             System.Diagnostics.Process.Start("https://github.com/ezrillex/Ahorcado/blob/master/CHANGELOG.md");
 
+        }
+
+        private void checkBox_darkmode_CheckedChanged(object sender, EventArgs e)
+        {
+            Sonido.Click();
+
+            if (checkBox_darkmode.Checked is true)
+            {
+                Data.DarkMode = true;
+            }
+            else if (checkBox_darkmode.Checked is false)
+            {
+                Data.DarkMode = false;
+            }
+
+            Data.RecentlyChangedTheme = true;
+            Data.UpdateDarkMode();
         }
     }
 }

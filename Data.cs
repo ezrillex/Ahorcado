@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -14,12 +15,13 @@ namespace Ahorcado
     public static class Data
     {
         #region DEFINITIONS
-        public static string version = "1.0.6";
+        public static string version = "1.1.0";
         public static string GameWord = "";
         public static string WordGuess = "";
         public static string WrongGuessLetters = "";
-        public static string ScorePath = "";
         public static string WORD = "";
+        static string ScorePath = "";
+        static string DarkPath = "";
 
         public static int Puntaje = 0;
         public static int attempts = 7;
@@ -28,6 +30,8 @@ namespace Ahorcado
         public static int WRONG;
         public static int APPEARED;
 
+        public static bool RecentlyChangedTheme = true;
+        public static bool DarkMode = false;
         public static bool InitializationFinished = false;
         public static bool LoadingFinished = false;
         public static bool GameStarted = false;
@@ -43,12 +47,18 @@ namespace Ahorcado
         public static SQLiteCommand DB_Command;
 
         public static CustomStringStack History = new CustomStringStack(5);
+
+        public static Color GlobalBackColor = Color.White;
+        public static Color GlobalForeColor = Color.Black;
+        public static Pen GlobalPenColor = Pens.Black;
+        public static Brush GlobalBrushColor = Brushes.Black;
         #endregion
 
         public static void Init()
         {
             InitScore();
             InitDatabaseConnection();
+            InitDarkMode();
         }
 
         public static void Dispose()
@@ -56,8 +66,14 @@ namespace Ahorcado
             // Save score
             File.WriteAllText(ScorePath, Puntaje.ToString());
 
+            // Save Dark Mode state
+            File.WriteAllText(DarkPath, DarkMode.ToString());
+
             // Close database connection
             DB_Connection.Close();
+
+            GlobalBrushColor.Dispose();
+            GlobalPenColor.Dispose();
         }
 
         private static void InitScore()
@@ -82,6 +98,51 @@ namespace Ahorcado
                 {
                     fs.Write("0");
                 }
+            }
+        }
+
+        private static void InitDarkMode()
+        {
+            // Create or load a text file to permanently save score.
+            DarkPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location); // Get exe path
+            DarkPath += "\\DarkMode.txt";
+
+            if (File.Exists(DarkPath))
+            {
+                // Load value stored in file.
+                using (StreamReader sr = File.OpenText(DarkPath))
+                {
+                    string s = sr.ReadToEnd();
+                    DarkMode = Convert.ToBoolean(s);
+                }
+            }
+            else
+            {
+                // Create the file
+                using (StreamWriter fs = File.CreateText(DarkPath))
+                {
+                    fs.Write("False");
+                }
+            }
+
+            UpdateDarkMode();
+        }
+
+        public static void UpdateDarkMode() 
+        {
+            if (DarkMode is true)
+            {
+                GlobalBackColor = Color.Black;
+                GlobalForeColor = Color.White;
+                GlobalPenColor = new Pen(Pens.White.Color, 3);
+                GlobalBrushColor = Brushes.White;
+            }
+            else
+            {
+                GlobalBackColor = Color.White;
+                GlobalForeColor = Color.Black;
+                GlobalPenColor = new Pen(Pens.Black.Color, 3);
+                GlobalBrushColor = Brushes.Black;
             }
         }
 
