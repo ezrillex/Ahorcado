@@ -14,7 +14,7 @@ namespace Ahorcado
     public static class Data
     {
         #region DEFINITIONS
-        public static string version = "1.0.5";
+        public static string version = "1.0.6";
         public static string GameWord = "";
         public static string WordGuess = "";
         public static string WrongGuessLetters = "";

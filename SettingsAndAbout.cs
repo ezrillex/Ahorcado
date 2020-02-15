@@ -90,5 +90,11 @@ namespace Ahorcado
             sendFeedback.Owner = this;
             sendFeedback.ShowDialog();
         }
+
+        private void button_Notas_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/ezrillex/Ahorcado/blob/master/CHANGELOG.md");
+
+        }
     }
 }

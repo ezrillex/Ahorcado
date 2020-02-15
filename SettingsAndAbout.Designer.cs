@@ -36,7 +36,8 @@
             this.checkBox_antialiasing = new System.Windows.Forms.CheckBox();
             this.button_ReportWord = new System.Windows.Forms.Button();
             this.button_ResetScore = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button_Comentarios = new System.Windows.Forms.Button();
+            this.button_Notas = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -75,7 +76,7 @@
             this.checkBox_darkmode.Enabled = false;
             this.checkBox_darkmode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_darkmode.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox_darkmode.Location = new System.Drawing.Point(64, 150);
+            this.checkBox_darkmode.Location = new System.Drawing.Point(72, 192);
             this.checkBox_darkmode.Name = "checkBox_darkmode";
             this.checkBox_darkmode.Size = new System.Drawing.Size(197, 35);
             this.checkBox_darkmode.TabIndex = 3;
@@ -87,7 +88,7 @@
             this.button_cerrar.BackColor = System.Drawing.Color.White;
             this.button_cerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_cerrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_cerrar.Location = new System.Drawing.Point(120, 252);
+            this.button_cerrar.Location = new System.Drawing.Point(128, 294);
             this.button_cerrar.Name = "button_cerrar";
             this.button_cerrar.Size = new System.Drawing.Size(100, 40);
             this.button_cerrar.TabIndex = 4;
@@ -101,7 +102,7 @@
             this.checkBox_antialiasing.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBox_antialiasing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBox_antialiasing.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox_antialiasing.Location = new System.Drawing.Point(80, 191);
+            this.checkBox_antialiasing.Location = new System.Drawing.Point(88, 233);
             this.checkBox_antialiasing.Name = "checkBox_antialiasing";
             this.checkBox_antialiasing.Size = new System.Drawing.Size(181, 35);
             this.checkBox_antialiasing.TabIndex = 5;
@@ -116,7 +117,7 @@
             this.button_ReportWord.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_ReportWord.Location = new System.Drawing.Point(12, 12);
             this.button_ReportWord.Name = "button_ReportWord";
-            this.button_ReportWord.Size = new System.Drawing.Size(317, 40);
+            this.button_ReportWord.Size = new System.Drawing.Size(316, 40);
             this.button_ReportWord.TabIndex = 6;
             this.button_ReportWord.Text = "Reportar palabra";
             this.button_ReportWord.UseVisualStyleBackColor = false;
@@ -135,18 +136,31 @@
             this.button_ResetScore.UseVisualStyleBackColor = false;
             this.button_ResetScore.Click += new System.EventHandler(this.button_ResetScore_Click);
             // 
-            // button1
+            // button_Comentarios
             // 
-            this.button1.BackColor = System.Drawing.Color.White;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(13, 58);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(317, 40);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "Enviar Comentarios";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.button_Comentarios.BackColor = System.Drawing.Color.White;
+            this.button_Comentarios.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Comentarios.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Comentarios.Location = new System.Drawing.Point(13, 58);
+            this.button_Comentarios.Name = "button_Comentarios";
+            this.button_Comentarios.Size = new System.Drawing.Size(316, 40);
+            this.button_Comentarios.TabIndex = 8;
+            this.button_Comentarios.Text = "Enviar Comentarios";
+            this.button_Comentarios.UseVisualStyleBackColor = false;
+            this.button_Comentarios.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // button_Notas
+            // 
+            this.button_Notas.BackColor = System.Drawing.Color.White;
+            this.button_Notas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Notas.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Notas.Location = new System.Drawing.Point(12, 150);
+            this.button_Notas.Name = "button_Notas";
+            this.button_Notas.Size = new System.Drawing.Size(316, 40);
+            this.button_Notas.TabIndex = 9;
+            this.button_Notas.Text = "Notas de Vérsion";
+            this.button_Notas.UseVisualStyleBackColor = false;
+            this.button_Notas.Click += new System.EventHandler(this.button_Notas_Click);
             // 
             // SettingsAndAbout
             // 
@@ -154,7 +168,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(340, 361);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.button_Notas);
+            this.Controls.Add(this.button_Comentarios);
             this.Controls.Add(this.button_ResetScore);
             this.Controls.Add(this.button_ReportWord);
             this.Controls.Add(this.checkBox_antialiasing);
@@ -182,6 +197,7 @@
         private System.Windows.Forms.CheckBox checkBox_antialiasing;
         private System.Windows.Forms.Button button_ResetScore;
         private System.Windows.Forms.Button button_ReportWord;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_Comentarios;
+        private System.Windows.Forms.Button button_Notas;
     }
 }
