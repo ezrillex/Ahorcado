@@ -1,23 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Media;
 using System.IO;
 using System.Reflection;
 using System.Data.SQLite;
-using Sentry;
 
 namespace Ahorcado
 {
-    // used this  Install-Package Sentry -Version 1.2.0
-
     public partial class GameForm : Form
     {
         #region DEFINITIONS
@@ -27,7 +19,7 @@ namespace Ahorcado
         string WrongGuessLetters = "";
         string ScorePath = "";
         string WORD;
-        public static string version = "1.0.3";
+        public static string version = "1.0.4";
 
         public static int Puntaje = 0;
         int attempts = 7;
@@ -43,12 +35,6 @@ namespace Ahorcado
         Graphics g;
 
         SQLiteConnection DB_Connection;
-
-        SoundPlayer sound_Correct;
-        SoundPlayer sound_Wrong;
-        SoundPlayer sound_Lose;
-        SoundPlayer sound_Win;
-        SoundPlayer sound_Click;
         
         Pen BlackPen;
         Pen RedPen;
@@ -96,17 +82,9 @@ namespace Ahorcado
                 {
                     fs.Write("0");
                 }
-                    
             }
             // Update score with value loaded
             label_puntaje.Text = "Puntaje: " + Puntaje;
-
-            // Initialize sound
-            sound_Correct = new SoundPlayer("Correct.wav");
-            sound_Wrong = new SoundPlayer("Wrong.wav");
-            sound_Lose = new SoundPlayer("Lose.wav");
-            sound_Win = new SoundPlayer("Win.wav");
-            sound_Click = new SoundPlayer("Click.wav");
 
             // Create graphics object and pen
             g = this.CreateGraphics();
@@ -123,7 +101,6 @@ namespace Ahorcado
             {
                 g.SmoothingMode = SmoothingMode.None;
             }
-            
 
             // Connect to word database
             string ProgramPath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -138,7 +115,6 @@ namespace Ahorcado
                 MessageBox.Show("Fallo al conectar a la base de datos: " + ex.Message);
             }
             DB_Command = DB_Connection.CreateCommand();
-
 
             // Center Play Button
             PlayButton.Location = new Point((this.Size.Width - PlayButton.Width) / 2, (this.Size.Height - PlayButton.Height) / 2);
@@ -197,7 +173,6 @@ namespace Ahorcado
             for(int i = 0; i < History.size; i++)
             {
                 HistoryLabels[i] = new Label();
-                
             }
 
             // Format and Move history label to locations
@@ -301,8 +276,6 @@ namespace Ahorcado
                 DB_Command.ExecuteNonQuery();
                 DB_Command.Parameters.Clear();
             }
-
-
 
             // Get a NEW random word from the Word Database
             SQLiteDataReader DB_Reader;
@@ -409,7 +382,6 @@ namespace Ahorcado
 
             if (AnyMatchFound == false)
             {
-                
                 for (int i = 0; i < WrongGuessLetters.Length; i++)
                 {
                     if (WrongGuessLetters[i] == c)
@@ -428,7 +400,7 @@ namespace Ahorcado
             if (WordGuess == GameWord)
             {
                 // Win condition. 
-                sound_Win.Play();
+                Sonido.Win();
                 attempts = 7;
                 InitializeWord();
                 foreach(Button b in GameButtons)
@@ -439,7 +411,7 @@ namespace Ahorcado
             else if(attempts == 0)
             {
                 // Lose condition.
-                sound_Lose.Play();
+                Sonido.Lose();
                 attempts = 7;
                 InitializeWord(false);
                 foreach (Button b in GameButtons)
@@ -451,12 +423,12 @@ namespace Ahorcado
             {
                 if (AnyMatchFound == false & isReapeatedInWrongGuess == false)
                 {
-                    sound_Wrong.Play();
+                    Sonido.Wrong();
                     this.Controls.Find("button_" + c, false)[0].BackColor = Color.Red;
                 }
                 else if(AnyMatchFound == true & RepeatedMatch == false)
                 {
-                    sound_Correct.Play();
+                    Sonido.Correct();
                     this.Controls.Find("button_" + c, false)[0].BackColor = Color.Green;
                 }
                 UpdateScreen(MatchPen); 
@@ -466,11 +438,9 @@ namespace Ahorcado
         /// <summary>
         /// Play button press which hides the button and shows labels and keyboard buttons. Initializes the first word. Sets the game started flag to true.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void PlayButton_Click(object sender, EventArgs e)
         {
-            sound_Click.Play();
+            Sonido.Click();
 
             // Hide Play button
             PlayButton.Visible = false;
@@ -491,15 +461,12 @@ namespace Ahorcado
             }
 
             InitializeWord();
-
             GameStarted = true;
         }
 
         /// <summary>
         /// Settings button press opens as dialogue the settings and about form and sets game form as owner.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void button_settings_Click(object sender, EventArgs e)
         {
             SettingsAndAbout SettingsWindow = new SettingsAndAbout();
@@ -510,8 +477,6 @@ namespace Ahorcado
         /// <summary>
         /// Disposes pens and graphics resources.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Save score
@@ -525,11 +490,6 @@ namespace Ahorcado
             RedPen.Dispose();
             GreenPen.Dispose();
             g.Dispose();
-            sound_Correct.Dispose();
-            sound_Lose.Dispose();
-            sound_Win.Dispose();
-            sound_Wrong.Dispose();
-            sound_Click.Dispose();
         }
 
         /// <summary>
@@ -688,14 +648,11 @@ namespace Ahorcado
         /// <summary>
         /// Captures keypresses to not always use on screen keyboard.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void GameForm_KeyDown(object sender, KeyEventArgs e)
         {
             if(GameStarted == true)
             {
                 Keys key = e.KeyCode;
-
                 switch (key)
                 {
                     case Keys.A:
@@ -782,12 +739,9 @@ namespace Ahorcado
                     default:
                         break;
                 }
-
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
-            
-
         }
 
         // Handles the button click events which were setup NOT programatically for speed of development.

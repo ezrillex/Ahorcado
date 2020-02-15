@@ -167,7 +167,6 @@
             this.MinimumSize = new System.Drawing.Size(356, 400);
             this.Name = "SettingsAndAbout";
             this.Text = "Configuración y acerca de";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SettingsAndAbout_FormClosing);
             this.Load += new System.EventHandler(this.SettingsAndAbout_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

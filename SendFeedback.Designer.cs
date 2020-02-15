@@ -125,7 +125,6 @@
             this.MinimumSize = new System.Drawing.Size(440, 292);
             this.Name = "SendFeedback";
             this.Text = "Enviar comentarios";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SendFeedback_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

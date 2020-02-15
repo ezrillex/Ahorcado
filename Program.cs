@@ -15,6 +15,7 @@ namespace Ahorcado
         [STAThread]
         static void Main()
         {
+
             using (SentrySdk.Init(o =>
             {
                 o.Dsn = new Dsn("https://f3eeb95f9d5c4085b3d1672f3ff4cb74@sentry.io/1894899");
@@ -22,10 +23,16 @@ namespace Ahorcado
             }
             ))
             {
+                // Initialize sound layer
+                Sonido.Init();
+
                 // App code
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new GameForm());
+
+                // Dispose unusued resources
+                Sonido.Dispose();
             }
             
         }

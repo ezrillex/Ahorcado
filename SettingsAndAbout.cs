@@ -1,24 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Diagnostics;
-using Microsoft.Win32;
-using System.Media;
 using Sentry;
-using Flurl.Http;
 
 namespace Ahorcado
 {
     public partial class SettingsAndAbout : Form
     {
-        SoundPlayer sound_Click = new SoundPlayer("Click.wav");
-
         public SettingsAndAbout()
         {
             InitializeComponent();
@@ -31,13 +18,13 @@ namespace Ahorcado
 
         private void button1_Click(object sender, EventArgs e)
         {
-            sound_Click.Play();
+            Sonido.Click();
             this.Close();
         }
 
         private void checkBox_antialiasing_CheckedChanged(object sender, EventArgs e)
         {
-            sound_Click.Play();
+            Sonido.Click();
 
             if (checkBox_antialiasing.Checked == true)
             {
@@ -57,14 +44,14 @@ namespace Ahorcado
 
         private void button_ResetScore_Click(object sender, EventArgs e)
         {
-            sound_Click.Play();
+            Sonido.Click();
 
             DialogResult dialogResult = MessageBox.Show
                 ("Esta accion reiniciara tu puntaje permanente a 0. ¿Estas seguro que quieres continuar?",
                 "Confirmar reinicio de puntaje",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
-            sound_Click.Play();
+            Sonido.Click();
 
             if (dialogResult == DialogResult.Yes)
             {
@@ -75,18 +62,14 @@ namespace Ahorcado
                     "Información",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
-            }
-            sound_Click.Play();
-        }
+                Sonido.Click();
 
-        private void SettingsAndAbout_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            sound_Click.Dispose();
+            }
         }
 
         private void button_ReportWord_Click(object sender, EventArgs e)
         {
-            sound_Click.Play();
+            Sonido.Click();
             try
             {
                 string ContenidoDeReporte = GameForm.History.ToSerializedUnverified();
@@ -102,7 +85,7 @@ namespace Ahorcado
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            sound_Click.Play();
+            Sonido.Click();
             SendFeedback sendFeedback = new SendFeedback();
             sendFeedback.Owner = this;
             sendFeedback.ShowDialog();

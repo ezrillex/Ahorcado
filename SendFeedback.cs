@@ -1,22 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Sentry;
 using Flurl.Http;
-using System.Media;
 
 namespace Ahorcado
 {
     public partial class SendFeedback : Form
     {
-        SoundPlayer sound_click = new SoundPlayer("Click.wav");
-
         public SendFeedback()
         {
             InitializeComponent();
@@ -24,7 +14,7 @@ namespace Ahorcado
 
         private async void button_sendfeedback_Click(object sender, EventArgs e)
         {
-            sound_click.Play();
+            Sonido.Click();
             string name = textBox_nombre.Text;
             string email = textBox_email.Text;
             string comments = textBox_comentario.Text;
@@ -41,10 +31,8 @@ namespace Ahorcado
                 errorProvider1.Clear();
             }
 
-
             try
             {
-                
                  /* This is a breadcrumb not something that will be sent; deprecated for that reason
                 string msg = "Name: {0}, Email: {1}, Comment: {2}";
                 msg = string.Format(msg, name, email, comment);
@@ -73,9 +61,5 @@ namespace Ahorcado
             }
         }
 
-        private void SendFeedback_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            sound_click.Dispose();
-        }
     }
 }
