@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Sentry;
 
 namespace Ahorcado
 {
@@ -17,23 +16,17 @@ namespace Ahorcado
         static void Main()
         {
 
-            using (SentrySdk.Init(o =>
-            {
-                o.Dsn = new Dsn("https://f3eeb95f9d5c4085b3d1672f3ff4cb74@sentry.io/1894899");
-                o.Release = "ahorcado-csharp-pc@" + Data.version;
-            }
-            ))
-            {
-                // App code
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new SplashScreen()); // Initialization
-                Application.Run(new GameForm()); // Main Game
+           
+            // App code
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new SplashScreen()); // Initialization
+            Application.Run(new GameForm()); // Main Game
 
-                // Dispose unusued resources
-                Sonido.Dispose();
-                Data.Dispose();
-            }
+            // Dispose unusued resources
+            Sonido.Dispose();
+            Data.Dispose();
+            
             
         }
     }

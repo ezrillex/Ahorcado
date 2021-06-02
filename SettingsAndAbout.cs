@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using Sentry;
 
 namespace Ahorcado
 {
@@ -68,29 +67,9 @@ namespace Ahorcado
             }
         }
 
-        private void button_ReportWord_Click(object sender, EventArgs e)
-        {
-            Sonido.Click();
-            try
-            {
-                string ContenidoDeReporte = Data.History.ToSerializedUnverified();
-                SentrySdk.CaptureEvent(new SentryEvent(new Exception("User is reporting words: " + Data.History.ToSerializedUnverified())));
-                MessageBox.Show("La palabra fue reportada exitosamente. Tomaremos su retroalimentacion en cuenta en futuras actualizaciones.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                
-            }catch(Exception ex)
-            {
-                SentrySdk.CaptureException(ex);
-                MessageBox.Show("Ocurrio un error al enviar el reporte. Esto ha sido reportado, gracias por su tiempo.", "Error al enviar palabras", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+     
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            Sonido.Click();
-            SendFeedback sendFeedback = new SendFeedback();
-            sendFeedback.Owner = this;
-            sendFeedback.ShowDialog();
-        }
+  
 
         private void button_Notas_Click(object sender, EventArgs e)
         {

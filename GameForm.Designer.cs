@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameForm));
             this.label_titulo = new System.Windows.Forms.Label();
             this.label_puntaje = new System.Windows.Forms.Label();
             this.PlayButton = new System.Windows.Forms.Button();
@@ -484,6 +485,7 @@
             this.Controls.Add(this.label_puntaje);
             this.Controls.Add(this.label_titulo);
             this.ForeColor = System.Drawing.Color.Black;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximumSize = new System.Drawing.Size(1200, 622);
             this.MinimumSize = new System.Drawing.Size(1200, 622);

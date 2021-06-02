@@ -24,7 +24,7 @@ namespace Ahorcado
 
         private void InitLoadCheck()
         {
-            CheckLoadedFinished.Interval = 3000;
+            CheckLoadedFinished.Interval = 2000;
             CheckLoadedFinished.Enabled = true;
             CheckLoadedFinished.Tick += new EventHandler(LoadCheckTick);
             CheckLoadedFinished.Start();

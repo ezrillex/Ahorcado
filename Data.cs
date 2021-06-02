@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Sentry;
 
 namespace Ahorcado
 {
     public static class Data
     {
         #region DEFINITIONS
-        public static string version = "1.1.0";
+        public static string version = "1.1.1";
         public static string GameWord = "";
         public static string WordGuess = "";
         public static string WrongGuessLetters = "";
@@ -149,7 +144,7 @@ namespace Ahorcado
         private static void InitDatabaseConnection()
         {
             // Connect to word database
-            string ProgramPath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string ProgramPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             ProgramPath += @"\WordDB.db";
             DB_Connection = new SQLiteConnection("Data Source=" + ProgramPath + ";Version=3;");
             try
@@ -158,7 +153,6 @@ namespace Ahorcado
             }
             catch (Exception ex)
             {
-                SentrySdk.CaptureException(ex);
                 MessageBox.Show("Fallo al conectar a la base de datos: " + ex.Message, "Error de base de datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             DB_Command = DB_Connection.CreateCommand();

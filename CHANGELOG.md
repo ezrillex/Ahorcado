@@ -3,8 +3,17 @@ Todos los cambios notables serán documentados en este archivo.
 El formato esta basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 y este proyecto se adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
+## [1.1.1] - 2021-06-1
+### Agregado:
+- Icono de Aplicación.
+### Cambios:
+- Mejora de tiempo de carga.
+### Removido:
+- Integracion con Sentry.io
+- Librerias no utilizadas.
+## [1.1.0] - 2020-02-15
+### Agregado:
+- Modo Oscuro
 ## [1.0.6] - 2020-02-15
 ### Agregado:
 - Boton con enlace a este registro de cambios de versión.
@@ -60,9 +69,13 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.
 
 
 [unreleased]: https://github.com/ezrillex/Ahorcado/commits/master
+[1.1.1]: https://github.com/ezrillex/Ahorcado/releases/tag/1.1.1
+[1.1.0]: https://github.com/ezrillex/Ahorcado/commit/e33222ff636c3b922e92a754de5f717e67c6b671
+[1.0.6]: https://github.com/ezrillex/Ahorcado/commit/8c27a3cc5e0ca07ddf7676872f6e9644ffe7aa10
 [1.0.5]: https://github.com/ezrillex/Ahorcado/commit/83b71858c5ca81da41951a85243accf4f3afd7d9?diff=unified
 [1.0.4]: https://github.com/ezrillex/Ahorcado/commit/937cde5d5592fdc469c82b5f98b53fe228345c1a?diff=unified
 [1.0.3]: https://github.com/ezrillex/Ahorcado/commit/2d09f2954efbcb31dad2ecaeef4d879ba6906f23?diff=unified
 [1.0.2]: https://github.com/ezrillex/Ahorcado/releases/tag/1.0.2
 [1.0.1]: https://github.com/ezrillex/Ahorcado/releases/tag/1.0.1
 [1.0.0]: https://github.com/ezrillex/Ahorcado/commit/cefc0a3e1276dcbe4b1ab970e711160e6ec8a3e6?diff=unified
+
